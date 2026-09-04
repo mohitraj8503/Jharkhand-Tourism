@@ -61,3 +61,8 @@ Thumbs.db
 
 # Log files
 *.log
+
+# Project planning & spec docs
+Markdown/
+Markdown /
+"Markdown "

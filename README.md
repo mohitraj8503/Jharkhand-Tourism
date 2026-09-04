@@ -1,7 +1,7 @@
-# 🌿 JharVista — Tourism in Jharkhand
-
 <p align="center">
-  <img src="public/BrandLogo.png" alt="JharVista Logo" width="160" style="border-radius: 28px;" />
+  <a href="https://github.com/mohitraj8503/Jharkhand-Tourism">
+    <img src="public/jharvista_banner.png" alt="JharVista — Tourism in Jharkhand" width="820" style="max-width: 100%; border-radius: 24px;" />
+  </a>
 </p>
 
 <p align="center">
