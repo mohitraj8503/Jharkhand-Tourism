@@ -1,5 +1,6 @@
 package com.example.ui.components
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -10,7 +11,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -28,8 +28,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
@@ -58,28 +58,24 @@ fun TripPlannerWidget(
             .testTag("trip_planner_widget"),
         shape = RoundedCornerShape(26.dp),
         colors = CardDefaults.cardColors(containerColor = Color(0xFF0B3324)),
-        border = androidx.compose.foundation.BorderStroke(1.dp, Color.White.copy(alpha = 0.12f)),
+        border = BorderStroke(1.dp, Color.White.copy(alpha = 0.12f)),
         elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
     ) {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
                 .background(
-                    brush = Brush.verticalGradient(
-                        colors = listOf(Color(0xFF0F3E2C), Color(0xFF08261B))
+                    brush = Brush.radialGradient(
+                        colors = listOf(
+                            Color(0xFF1A543E),
+                            Color(0xFF0F3A29),
+                            Color(0xFF08261B)
+                        ),
+                        center = Offset(1000f, 0f),
+                        radius = 1200f
                     )
                 )
         ) {
-            // Apple-style subtle ambient glow in top right
-            Box(
-                modifier = Modifier
-                    .size(150.dp)
-                    .align(Alignment.TopEnd)
-                    .offset(x = 40.dp, y = (-40).dp)
-                    .blur(70.dp)
-                    .background(LimeAccent.copy(alpha = 0.25f), CircleShape)
-            )
-
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -123,22 +119,33 @@ fun TripPlannerWidget(
                         )
                     }
 
-                    // Days Left Badge - Apple Pill Style (guaranteed single line)
+                    // Days Left Badge - Apple Frosted Capsule Style
                     Surface(
-                        shape = RoundedCornerShape(20.dp),
-                        color = LimeAccent,
+                        shape = RoundedCornerShape(100.dp),
+                        color = LimeAccent.copy(alpha = 0.16f),
+                        border = BorderStroke(1.dp, LimeAccent.copy(alpha = 0.40f)),
                         shadowElevation = 0.dp
                     ) {
-                        Text(
-                            text = "$daysLeft DAYS LEFT",
-                            color = ForestGreenDark,
-                            fontSize = 11.sp,
-                            fontWeight = FontWeight.Black,
-                            letterSpacing = 0.6.sp,
-                            maxLines = 1,
-                            softWrap = false,
-                            modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp)
-                        )
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            modifier = Modifier.padding(horizontal = 11.dp, vertical = 6.dp)
+                        ) {
+                            Box(
+                                modifier = Modifier
+                                    .size(6.dp)
+                                    .background(LimeAccent, CircleShape)
+                            )
+                            Spacer(modifier = Modifier.width(6.dp))
+                            Text(
+                                text = "$daysLeft DAYS LEFT",
+                                color = LimeAccent,
+                                fontSize = 10.5.sp,
+                                fontWeight = FontWeight.ExtraBold,
+                                letterSpacing = 0.8.sp,
+                                maxLines = 1,
+                                softWrap = false
+                            )
+                        }
                     }
                 }
 
