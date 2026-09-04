@@ -238,7 +238,16 @@ fun TruApp(repository: TruRepository) {
                                 popUpTo(Screen.Home.route) { inclusive = true }
                             }
                         },
-                        onBack = { navController.popBackStack() }
+                        onBack = { navController.popBackStack() },
+                        onNavigateToTrips = {
+                            navController.navigate(Screen.Trips.route)
+                        },
+                        onNavigateToDestination = { destId ->
+                            navController.navigate(Screen.DestinationDetail.createRoute(destId))
+                        },
+                        onNavigateToWallet = {
+                            navController.navigate(Screen.Wallet.route)
+                        }
                     )
                 }
 
