@@ -21,10 +21,12 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.outlined.HealthAndSafety
 import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.CloudDone
@@ -78,7 +80,8 @@ fun TripTimelineScreen(
     tripId: Long,
     repository: TruRepository,
     onNavigateBack: () -> Unit,
-    onNavigateToRentals: () -> Unit = {}
+    onNavigateToRentals: () -> Unit = {},
+    onNavigateToHealthSafety: () -> Unit = {}
 ) {
     val coroutineScope = rememberCoroutineScope()
     var selectedCategoryFilter by remember { mutableStateOf("All") }
@@ -281,6 +284,102 @@ fun TripTimelineScreen(
                             }
                         }
                     )
+                }
+            }
+
+            // Trip Safety Card (Requirement 19)
+            item(key = "trip_safety_card") {
+                Card(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp)
+                        .clip(RoundedCornerShape(16.dp))
+                        .clickable { onNavigateToHealthSafety() },
+                    shape = RoundedCornerShape(16.dp),
+                    colors = CardDefaults.cardColors(containerColor = Color.White),
+                    elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
+                ) {
+                    Column(modifier = Modifier.padding(16.dp)) {
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                Box(
+                                    modifier = Modifier
+                                        .size(36.dp)
+                                        .clip(CircleShape)
+                                        .background(Color(0xFFFF3B30).copy(alpha = 0.12f)),
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    Icon(
+                                        imageVector = Icons.Outlined.HealthAndSafety,
+                                        contentDescription = null,
+                                        tint = Color(0xFFFF3B30),
+                                        modifier = Modifier.size(20.dp)
+                                    )
+                                }
+                                Spacer(modifier = Modifier.width(10.dp))
+                                Column {
+                                    Text(
+                                        text = "TRIP SAFETY",
+                                        fontSize = 10.sp,
+                                        fontWeight = FontWeight.Bold,
+                                        color = Color(0xFFFF3B30),
+                                        letterSpacing = 0.8.sp
+                                    )
+                                    Text(
+                                        text = "Trip Safety",
+                                        fontSize = 14.sp,
+                                        fontWeight = FontWeight.Bold,
+                                        color = TextPrimary
+                                    )
+                                }
+                            }
+                            Text(
+                                text = "Open Safety →",
+                                fontSize = 12.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = ForestGreen
+                            )
+                        }
+
+                        Spacer(modifier = Modifier.height(12.dp))
+
+                        // 4 Functional Safety Pills (Requirement 19)
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.spacedBy(6.dp)
+                        ) {
+                            listOf(
+                                "🆘 SOS" to onNavigateToHealthSafety,
+                                "👥 Contacts" to onNavigateToHealthSafety,
+                                "📍 Location" to onNavigateToHealthSafety,
+                                "🏥 Hospital" to onNavigateToHealthSafety
+                            ).forEach { (label, onClick) ->
+                                Box(
+                                    modifier = Modifier
+                                        .weight(1f)
+                                        .clip(RoundedCornerShape(10.dp))
+                                        .background(Color(0xFFF2F2F7))
+                                        .clickable(
+                                            indication = null,
+                                            interactionSource = remember { MutableInteractionSource() }
+                                        ) { onClick() }
+                                        .padding(vertical = 8.dp),
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    Text(
+                                        text = label,
+                                        fontSize = 11.sp,
+                                        fontWeight = FontWeight.SemiBold,
+                                        color = TextPrimary
+                                    )
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }

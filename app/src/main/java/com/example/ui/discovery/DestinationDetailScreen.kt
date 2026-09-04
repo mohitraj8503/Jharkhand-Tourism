@@ -39,6 +39,7 @@ import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Luggage
 import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.outlined.HealthAndSafety
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -386,6 +387,77 @@ fun DestinationDetailScreen(
         }
 
         Spacer(modifier = Modifier.height(14.dp))
+
+        // Destination Safety Tips Card (Requirement 18)
+        val isHighCrowd = destination.crowdLevel.equals("high", ignoreCase = true)
+        val isWaterfall = destination.name.contains("fall", ignoreCase = true) || destination.type.contains("fall", ignoreCase = true) || destination.description.contains("waterfall", ignoreCase = true)
+        val isWildlife = destination.name.contains("national park", ignoreCase = true) || destination.type.contains("wildlife", ignoreCase = true) || destination.name.contains("sanctuary", ignoreCase = true)
+        val isHills = destination.name.contains("hill", ignoreCase = true) || destination.name.contains("ghat", ignoreCase = true) || destination.type.contains("hill", ignoreCase = true) || destination.name.contains("netarhat", ignoreCase = true)
+
+        if (isHighCrowd || isWaterfall || isWildlife || isHills) {
+            Column(
+                modifier = Modifier
+                    .padding(horizontal = 20.dp)
+                    .fillMaxWidth()
+                    .clip(RoundedCornerShape(16.dp))
+                    .background(Color.White)
+                    .border(0.5.dp, Color(0xFFE5E5EA), RoundedCornerShape(16.dp))
+                    .padding(16.dp)
+            ) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Icon(
+                        imageVector = Icons.Outlined.HealthAndSafety,
+                        contentDescription = null,
+                        tint = ForestGreen,
+                        modifier = Modifier.size(20.dp)
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(
+                        text = "Safety Tips",
+                        fontSize = 15.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = TextPrimary
+                    )
+                }
+                Spacer(modifier = Modifier.height(10.dp))
+                if (isHighCrowd) {
+                    Text(
+                        text = "• High visitor volume expected. Stay within marked viewing areas and keep belongings secure.",
+                        fontSize = 12.sp,
+                        color = TextSecondary,
+                        lineHeight = 17.sp
+                    )
+                    Spacer(modifier = Modifier.height(4.dp))
+                }
+                if (isWaterfall) {
+                    Text(
+                        text = "• Rocks are slippery near water cascades. Never step beyond designated safety railings or swim in restricted plunge pools.",
+                        fontSize = 12.sp,
+                        color = TextSecondary,
+                        lineHeight = 17.sp
+                    )
+                    Spacer(modifier = Modifier.height(4.dp))
+                }
+                if (isWildlife) {
+                    Text(
+                        text = "• Maintain a safe distance from animals. Stay inside your safari vehicle at all times and follow official guide instructions.",
+                        fontSize = 12.sp,
+                        color = TextSecondary,
+                        lineHeight = 17.sp
+                    )
+                    Spacer(modifier = Modifier.height(4.dp))
+                }
+                if (isHills) {
+                    Text(
+                        text = "• Stay on marked trails. Hill slopes become misty and slippery during morning and monsoon conditions.",
+                        fontSize = 12.sp,
+                        color = TextSecondary,
+                        lineHeight = 17.sp
+                    )
+                }
+            }
+            Spacer(modifier = Modifier.height(14.dp))
+        }
 
         // Travel Sustainably (Section 16: Destination Detail Integration)
         Column(

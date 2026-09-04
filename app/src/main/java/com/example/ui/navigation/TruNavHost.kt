@@ -5,7 +5,13 @@ import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -20,6 +26,7 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.ui.Alignment
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -89,12 +96,23 @@ fun TruApp(repository: TruRepository) {
     
     val context = LocalContext.current
     val sessionManager = remember { SessionManager(context) }
+    val database = remember { com.example.data.local.TruDatabase.getInstance(context) }
+    val emergencyContactRepository = remember {
+        com.example.data.repository.EmergencyContactRepositoryImpl(
+            dao = database.emergencyContactDao(),
+            context = context
+        )
+    }
+    val healthSafetyViewModel: com.example.ui.health.HealthSafetyViewModel = androidx.lifecycle.viewmodel.compose.viewModel {
+        com.example.ui.health.HealthSafetyViewModel(emergencyContactRepository)
+    }
 
     val bottomNavItems = listOf(
         Screen.Home,
         Screen.Plan,
         Screen.Trips,
-        Screen.Wallet
+        Screen.Wallet,
+        Screen.HealthSafety
     )
 
     val showBottomBar = bottomNavItems.any { it.route == currentRoute }
@@ -130,56 +148,75 @@ fun TruApp(repository: TruRepository) {
                     enter = slideInVertically(initialOffsetY = { it }),
                     exit = slideOutVertically(targetOffsetY = { it })
                 ) {
-                    NavigationBar(
+                    androidx.compose.material3.Surface(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .border(1.dp, SurfaceCardSubtle)
                             .testTag("bottom_navigation_bar"),
-                        containerColor = SurfaceCard,
-                        tonalElevation = 0.dp,
-                        windowInsets = androidx.compose.foundation.layout.WindowInsets(0, 0, 0, 0)
+                        color = Color.White,
+                        shadowElevation = 0.dp
                     ) {
-                        bottomNavItems.forEach { screen ->
-                            val isSelected = currentRoute == screen.route
-                            NavigationBarItem(
-                                selected = isSelected,
-                                onClick = {
-                                    navController.navigate(screen.route) {
-                                        popUpTo(navController.graph.findStartDestination().id) {
-                                            saveState = true
-                                        }
-                                        launchSingleTop = true
-                                        restoreState = true
-                                    }
-                                },
-                                icon = {
-                                    Icon(
-                                        imageVector = screen.icon,
-                                        contentDescription = screen.title,
-                                        modifier = Modifier.size(24.dp)
-                                    )
-                                },
-                                label = {
-                                    Text(
-                                        text = screen.title,
-                                        fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Medium,
-                                        fontSize = 10.sp
-                                    )
-                                },
-                                colors = NavigationBarItemDefaults.colors(
-                                    selectedIconColor = ForestGreen,
-                                    selectedTextColor = ForestGreen,
-                                    indicatorColor = Color.Transparent,
-                                    unselectedIconColor = TextMuted,
-                                    unselectedTextColor = TextMuted
-                                )
+                        Column(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .navigationBarsPadding()
+                        ) {
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(0.5.dp)
+                                    .background(Color(0xFFD1D1D6))
                             )
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(49.dp),
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                bottomNavItems.forEach { screen ->
+                                    val isSelected = currentRoute == screen.route
+                                    val tintColor = if (isSelected) ForestGreen else Color(0xFF8E8E93)
+                                    Column(
+                                        modifier = Modifier
+                                            .weight(1f)
+                                            .fillMaxHeight()
+                                            .clickable(
+                                                interactionSource = remember { androidx.compose.foundation.interaction.MutableInteractionSource() },
+                                                indication = null
+                                            ) {
+                                                navController.navigate(screen.route) {
+                                                    popUpTo(navController.graph.findStartDestination().id) {
+                                                        saveState = true
+                                                    }
+                                                    launchSingleTop = true
+                                                    restoreState = true
+                                                }
+                                            },
+                                        horizontalAlignment = Alignment.CenterHorizontally,
+                                        verticalArrangement = Arrangement.Center
+                                    ) {
+                                        Icon(
+                                            imageVector = screen.icon,
+                                            contentDescription = screen.title,
+                                            tint = tintColor,
+                                            modifier = Modifier.size(23.dp)
+                                        )
+                                        Spacer(modifier = Modifier.height(2.dp))
+                                        Text(
+                                            text = screen.title,
+                                            fontWeight = if (isSelected) FontWeight.SemiBold else FontWeight.Medium,
+                                            fontSize = 10.sp,
+                                            color = tintColor,
+                                            maxLines = 1
+                                        )
+                                    }
+                                }
+                            }
                         }
                     }
                 }
             }
         ) { innerPadding ->
-            val startDestination = if (sessionManager.isLoggedIn()) Screen.Home.route else "welcome"
+            val startDestination = "welcome"
             
             NavHost(
                 navController = navController,
@@ -190,7 +227,14 @@ fun TruApp(repository: TruRepository) {
             ) {
                 // Auth Flow
                 composable("welcome") {
-                    WelcomeScreen(onNavigateToLogin = { navController.navigate("login") })
+                    WelcomeScreen(
+                        onNavigateNext = {
+                            val destination = if (sessionManager.isLoggedIn()) Screen.Home.route else "login"
+                            navController.navigate(destination) {
+                                popUpTo("welcome") { inclusive = true }
+                            }
+                        }
+                    )
                 }
 
                 composable("login") {
@@ -303,6 +347,12 @@ fun TruApp(repository: TruRepository) {
                     },
                     onNavigateToRentals = {
                         navController.navigate(Screen.EVRental.route)
+                    },
+                    onNavigateToHealthSafety = {
+                        navController.navigate(Screen.HealthSafety.route)
+                    },
+                    onNavigateToEmergencyContacts = {
+                        navController.navigate(Screen.EmergencyContacts.route)
                     }
                 )
             }
@@ -323,6 +373,53 @@ fun TruApp(repository: TruRepository) {
             // Tab 4: Wallet
             composable(Screen.Wallet.route) {
                 WalletScreen(repository = repository)
+            }
+
+            // Tab 5: Health & Safety
+            composable(Screen.HealthSafety.route) {
+                com.example.ui.health.HealthSafetyScreen(
+                    viewModel = healthSafetyViewModel,
+                    onNavigateToContacts = {
+                        navController.navigate(Screen.EmergencyContacts.route)
+                    },
+                    onNavigateToAddContact = {
+                        navController.navigate(Screen.AddEmergencyContact.route)
+                    }
+                )
+            }
+
+            // Health & Safety Sub-screens
+            composable(Screen.EmergencyContacts.route) {
+                com.example.ui.health.EmergencyContactsScreen(
+                    viewModel = healthSafetyViewModel,
+                    onNavigateBack = { navController.popBackStack() },
+                    onNavigateToAddContact = {
+                        navController.navigate(Screen.AddEmergencyContact.route)
+                    },
+                    onNavigateToEditContact = { contactId ->
+                        navController.navigate(Screen.EditEmergencyContact.createRoute(contactId))
+                    }
+                )
+            }
+
+            composable(Screen.AddEmergencyContact.route) {
+                com.example.ui.health.AddEmergencyContactScreen(
+                    contactId = null,
+                    viewModel = healthSafetyViewModel,
+                    onNavigateBack = { navController.popBackStack() }
+                )
+            }
+
+            composable(
+                route = Screen.EditEmergencyContact.route,
+                arguments = listOf(navArgument("contactId") { type = NavType.LongType })
+            ) { backStackEntry ->
+                val contactId = backStackEntry.arguments?.getLong("contactId") ?: 0L
+                com.example.ui.health.AddEmergencyContactScreen(
+                    contactId = contactId,
+                    viewModel = healthSafetyViewModel,
+                    onNavigateBack = { navController.popBackStack() }
+                )
             }
 
             // Sub-screen: Booking Config
@@ -384,7 +481,8 @@ fun TruApp(repository: TruRepository) {
                     tripId = tripId,
                     repository = repository,
                     onNavigateBack = { navController.popBackStack() },
-                    onNavigateToRentals = { navController.navigate(Screen.EVRental.route) }
+                    onNavigateToRentals = { navController.navigate(Screen.EVRental.route) },
+                    onNavigateToHealthSafety = { navController.navigate(Screen.HealthSafety.route) }
                 )
             }
             

@@ -17,8 +17,8 @@ android {
     applicationId = "com.jharvista.tourism"
     minSdk = 24
     targetSdk = 36
-    versionCode = 4
-    versionName = "2.1"
+    versionCode = 5
+    versionName = "2.2"
 
     testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
   }
@@ -42,9 +42,10 @@ android {
   buildTypes {
     release {
       isCrunchPngs = false
-      isMinifyEnabled = false
+      isMinifyEnabled = true
+      isShrinkResources = true
       proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
-      signingConfig = signingConfigs.getByName("release")
+      signingConfig = signingConfigs.getByName(if (file("${rootDir}/my-upload-key.jks").exists()) "release" else "debugConfig")
     }
     debug { signingConfig = signingConfigs.getByName("debugConfig") }
   }
@@ -117,7 +118,7 @@ dependencies {
   implementation(libs.logging.interceptor)
   implementation(libs.moshi.kotlin)
   implementation(libs.okhttp)
-  // implementation(libs.play.services.location)
+  implementation(libs.play.services.location)
   implementation(libs.retrofit)
   testImplementation(libs.androidx.compose.ui.test.junit4)
   testImplementation(libs.androidx.core)

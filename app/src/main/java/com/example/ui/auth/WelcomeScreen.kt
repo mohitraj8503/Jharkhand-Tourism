@@ -30,7 +30,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @Composable
-fun WelcomeScreen(onNavigateToLogin: () -> Unit) {
+fun WelcomeScreen(onNavigateNext: () -> Unit) {
     val scale = remember { Animatable(0.92f) }
     val alpha = remember { Animatable(0f) }
 
@@ -48,7 +48,7 @@ fun WelcomeScreen(onNavigateToLogin: () -> Unit) {
             )
         }
         delay(2500) // 2.5 second splash
-        onNavigateToLogin()
+        onNavigateNext()
     }
 
     Box(

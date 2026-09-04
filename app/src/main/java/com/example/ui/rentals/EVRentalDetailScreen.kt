@@ -37,6 +37,7 @@ import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Speed
 import androidx.compose.material.icons.filled.Warning
+import androidx.compose.material.icons.outlined.HealthAndSafety
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -472,6 +473,68 @@ fun EVRentalDetailScreen(
                             Icon(Icons.Default.LocationOn, contentDescription = null, tint = ForestGreen, modifier = Modifier.size(16.dp))
                             Spacer(modifier = Modifier.width(8.dp))
                             Text(text = loc, fontSize = 13.sp, color = TextPrimary)
+                        }
+                    }
+                }
+
+                Spacer(modifier = Modifier.height(14.dp))
+
+                // Rental Safety Card (Requirement 21)
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 20.dp)
+                        .clip(RoundedCornerShape(16.dp))
+                        .background(Color.White)
+                        .border(0.5.dp, Color(0xFFE5E5EA), RoundedCornerShape(16.dp))
+                        .padding(18.dp)
+                ) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Icon(
+                            imageVector = Icons.Outlined.HealthAndSafety,
+                            contentDescription = null,
+                            tint = ForestGreen,
+                            modifier = Modifier.size(20.dp)
+                        )
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Text(
+                            text = "Rental Safety",
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = TextPrimary
+                        )
+                    }
+
+                    Spacer(modifier = Modifier.height(10.dp))
+
+                    val safetyPoints = listOf(
+                        "Helmet where required (mandatory for 2-wheelers)",
+                        "Follow traffic rules strictly on national & state highways",
+                        "Check battery level & range estimate before hill trips",
+                        "Know charging locations along your planned route",
+                        "Keep emergency contact access handy via Safety tab"
+                    )
+
+                    safetyPoints.forEach { point ->
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(vertical = 4.dp),
+                            verticalAlignment = Alignment.Top
+                        ) {
+                            Text(
+                                text = "•",
+                                fontSize = 14.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = ForestGreen,
+                                modifier = Modifier.padding(end = 8.dp)
+                            )
+                            Text(
+                                text = point,
+                                fontSize = 13.sp,
+                                color = TextSecondary,
+                                lineHeight = 18.sp
+                            )
                         }
                     }
                 }

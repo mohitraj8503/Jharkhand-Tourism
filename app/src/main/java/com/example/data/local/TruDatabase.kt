@@ -12,13 +12,15 @@ import com.example.data.model.TripEntity
     entities = [
         TripEntity::class,
         SavedPlaceEntity::class,
-        ItineraryEventEntity::class
+        ItineraryEventEntity::class,
+        EmergencyContactEntity::class
     ],
-    version = 3,
+    version = 4,
     exportSchema = false
 )
 abstract class TruDatabase : RoomDatabase() {
     abstract fun truDao(): TruDao
+    abstract fun emergencyContactDao(): EmergencyContactDao
 
     companion object {
         @Volatile

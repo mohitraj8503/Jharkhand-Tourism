@@ -264,7 +264,7 @@ fun SidebarDrawer(
                     HorizontalDivider(color = Color(0xFFE5E5EA), thickness = 0.5.dp)
                     Spacer(modifier = Modifier.height(10.dp))
                     Text(
-                        text = "Johar • Discover the soul of Jharkhand\nVersion 1.1",
+                        text = "Johar • Discover the soul of Jharkhand\nVersion 2.2",
                         fontSize = 11.sp,
                         color = Color(0xFF8E8E93),
                         lineHeight = 16.sp

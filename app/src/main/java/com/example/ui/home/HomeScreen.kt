@@ -662,44 +662,53 @@ fun HomeScreen(
                 // Big Avatar with interactive photo edit indicator
                 Box(
                     modifier = Modifier
-                        .size(96.dp)
-                        .clip(CircleShape)
-                        .background(Color(0xFFC6F432))
-                        .border(2.dp, ForestGreen.copy(alpha = 0.25f), CircleShape)
+                        .size(102.dp)
                         .clickable { photoPickerLauncher.launch("image/*") },
                     contentAlignment = Alignment.Center
                 ) {
-                    if (currentPhotoUrl != null) {
-                        AsyncImage(
-                            model = currentPhotoUrl,
-                            contentDescription = "Profile Photo",
-                            modifier = Modifier.fillMaxSize().clip(CircleShape),
-                            contentScale = ContentScale.Crop
-                        )
-                    } else {
-                        Text(
-                            text = computedInitials,
-                            fontSize = 34.sp,
-                            fontWeight = FontWeight.Bold,
-                            color = Color(0xFF0B3D2E)
-                        )
-                    }
-
-                    // Camera Badge Overlay
+                    // Main Avatar Circle
                     Box(
                         modifier = Modifier
-                            .size(30.dp)
+                            .size(96.dp)
+                            .clip(CircleShape)
+                            .background(Color(0xFFC6F432))
+                            .border(2.dp, ForestGreen.copy(alpha = 0.25f), CircleShape),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        if (currentPhotoUrl != null) {
+                            AsyncImage(
+                                model = currentPhotoUrl,
+                                contentDescription = "Profile Photo",
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .clip(CircleShape),
+                                contentScale = ContentScale.Crop
+                            )
+                        } else {
+                            Text(
+                                text = computedInitials,
+                                fontSize = 34.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = Color(0xFF0B3D2E)
+                            )
+                        }
+                    }
+
+                    // Camera Badge Overlay - Perfectly round, unclipped, floating on bottom-right
+                    Box(
+                        modifier = Modifier
+                            .size(32.dp)
                             .align(Alignment.BottomEnd)
                             .clip(CircleShape)
                             .background(ForestGreen)
-                            .border(2.dp, Color.White, CircleShape),
+                            .border(2.5.dp, Color.White, CircleShape),
                         contentAlignment = Alignment.Center
                     ) {
                         Icon(
                             imageVector = Icons.Default.CameraAlt,
                             contentDescription = "Change photo",
                             tint = LimeAccent,
-                            modifier = Modifier.size(15.dp)
+                            modifier = Modifier.size(16.dp)
                         )
                     }
                 }

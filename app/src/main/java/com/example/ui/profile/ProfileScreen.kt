@@ -161,33 +161,40 @@ fun ProfileScreen(
                             // Avatar (Clickable to edit profile photo directly)
                             Box(
                                 modifier = Modifier
-                                    .size(88.dp)
-                                    .clip(CircleShape)
-                                    .background(Color(0xFFC6F432)) // LimeAccent
-                                    .border(2.dp, Color.White.copy(alpha = 0.4f), CircleShape)
+                                    .size(94.dp)
                                     .clickable { photoPickerLauncher.launch("image/*") },
                                 contentAlignment = Alignment.Center
                             ) {
-                                if (userPhotoUrl != null) {
-                                    AsyncImage(
-                                        model = userPhotoUrl,
-                                        contentDescription = "Profile Photo",
-                                        modifier = Modifier.fillMaxSize().clip(CircleShape),
-                                        contentScale = ContentScale.Crop
-                                    )
-                                } else {
-                                    Text(
-                                        text = initials,
-                                        fontSize = 30.sp,
-                                        fontWeight = FontWeight.Bold,
-                                        color = Color(0xFF0B3D2E)
-                                    )
-                                }
-
-                                // Apple-style Camera Badge Overlay
+                                // Main Avatar Circle
                                 Box(
                                     modifier = Modifier
-                                        .size(26.dp)
+                                        .size(88.dp)
+                                        .clip(CircleShape)
+                                        .background(Color(0xFFC6F432)) // LimeAccent
+                                        .border(2.dp, Color.White.copy(alpha = 0.4f), CircleShape),
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    if (userPhotoUrl != null) {
+                                        AsyncImage(
+                                            model = userPhotoUrl,
+                                            contentDescription = "Profile Photo",
+                                            modifier = Modifier.fillMaxSize().clip(CircleShape),
+                                            contentScale = ContentScale.Crop
+                                        )
+                                    } else {
+                                        Text(
+                                            text = initials,
+                                            fontSize = 30.sp,
+                                            fontWeight = FontWeight.Bold,
+                                            color = Color(0xFF0B3D2E)
+                                        )
+                                    }
+                                }
+
+                                // Apple-style Camera Badge Overlay (Unclipped)
+                                Box(
+                                    modifier = Modifier
+                                        .size(28.dp)
                                         .align(Alignment.BottomEnd)
                                         .clip(CircleShape)
                                         .background(Color(0xFF0B3D2E))
@@ -198,7 +205,7 @@ fun ProfileScreen(
                                         imageVector = Icons.Default.CameraAlt,
                                         contentDescription = "Change photo",
                                         tint = Color(0xFFC6F432),
-                                        modifier = Modifier.size(13.dp)
+                                        modifier = Modifier.size(14.dp)
                                     )
                                 }
                             }
@@ -484,7 +491,7 @@ fun ProfileScreen(
                                     .padding(horizontal = 8.dp, vertical = 3.dp)
                             ) {
                                 Text(
-                                    text = "v1.1",
+                                    text = "v2.2",
                                     fontSize = 11.sp,
                                     fontWeight = FontWeight.Bold,
                                     color = Color(0xFF2E7D32)
@@ -653,42 +660,51 @@ fun ProfileScreen(
                 ) {
                     Box(
                         modifier = Modifier
-                            .size(84.dp)
-                            .clip(CircleShape)
-                            .background(Color(0xFFC6F432))
-                            .border(2.dp, Color(0xFF0B3D2E).copy(alpha = 0.2f), CircleShape)
+                            .size(90.dp)
                             .clickable { photoPickerLauncher.launch("image/*") },
                         contentAlignment = Alignment.Center
                     ) {
-                        if (userPhotoUrl != null) {
-                            AsyncImage(
-                                model = userPhotoUrl,
-                                contentDescription = "Profile Photo",
-                                modifier = Modifier.fillMaxSize().clip(CircleShape),
-                                contentScale = ContentScale.Crop
-                            )
-                        } else {
-                            Text(
-                                text = initials,
-                                fontSize = 28.sp,
-                                fontWeight = FontWeight.Bold,
-                                color = Color(0xFF0B3D2E)
-                            )
-                        }
+                        // Main Avatar Circle
                         Box(
                             modifier = Modifier
-                                .size(26.dp)
+                                .size(84.dp)
+                                .clip(CircleShape)
+                                .background(Color(0xFFC6F432))
+                                .border(2.dp, Color(0xFF0B3D2E).copy(alpha = 0.2f), CircleShape),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            if (userPhotoUrl != null) {
+                                AsyncImage(
+                                    model = userPhotoUrl,
+                                    contentDescription = "Profile Photo",
+                                    modifier = Modifier.fillMaxSize().clip(CircleShape),
+                                    contentScale = ContentScale.Crop
+                                )
+                            } else {
+                                Text(
+                                    text = initials,
+                                    fontSize = 28.sp,
+                                    fontWeight = FontWeight.Bold,
+                                    color = Color(0xFF0B3D2E)
+                                )
+                            }
+                        }
+
+                        // Camera Badge Overlay (Unclipped)
+                        Box(
+                            modifier = Modifier
+                                .size(28.dp)
                                 .align(Alignment.BottomEnd)
                                 .clip(CircleShape)
                                 .background(Color(0xFF0B3D2E))
-                                .border(1.5.dp, Color.White, CircleShape),
+                                .border(2.dp, Color.White, CircleShape),
                             contentAlignment = Alignment.Center
                         ) {
                             Icon(
                                 imageVector = Icons.Default.CameraAlt,
                                 contentDescription = "Change photo",
                                 tint = Color(0xFFC6F432),
-                                modifier = Modifier.size(13.dp)
+                                modifier = Modifier.size(14.dp)
                             )
                         }
                     }

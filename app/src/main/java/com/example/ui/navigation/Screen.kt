@@ -8,6 +8,7 @@ import androidx.compose.material.icons.filled.Explore
 import androidx.compose.material.icons.filled.Flight
 import androidx.compose.material.icons.filled.Luggage
 import androidx.compose.material.icons.filled.Map
+import androidx.compose.material.icons.outlined.HealthAndSafety
 import androidx.compose.ui.graphics.vector.ImageVector
 
 sealed class Screen(
@@ -19,6 +20,14 @@ sealed class Screen(
     data object Plan : Screen("plan", "Plan", Icons.Default.AutoAwesome)
     data object Trips : Screen("trips", "Trips", Icons.Default.Luggage)
     data object Wallet : Screen("wallet", "Wallet", Icons.Default.CreditCard)
+    data object HealthSafety : Screen("health_safety", "Safety", Icons.Outlined.HealthAndSafety)
+
+    // Sub-screens
+    data object EmergencyContacts : Screen("emergency_contacts", "Emergency Contacts", Icons.Outlined.HealthAndSafety)
+    data object AddEmergencyContact : Screen("add_emergency_contact", "Add Contact", Icons.Outlined.HealthAndSafety)
+    data object EditEmergencyContact : Screen("edit_emergency_contact/{contactId}", "Edit Contact", Icons.Outlined.HealthAndSafety) {
+        fun createRoute(contactId: Long) = "edit_emergency_contact/$contactId"
+    }
 
     // Sub-screens
     data object BookingConfig : Screen("booking_config/{destination}", "Book", Icons.Default.Flight) {

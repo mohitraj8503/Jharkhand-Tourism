@@ -32,6 +32,7 @@ import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material.icons.filled.DirectionsCar
 import androidx.compose.material.icons.filled.Eco
 import androidx.compose.material.icons.filled.EventNote
+import androidx.compose.material.icons.outlined.HealthAndSafety
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -76,7 +77,9 @@ fun AIPlanningScreen(
     repository: TruRepository,
     onNavigateBack: () -> Unit,
     onNavigateToTimeline: (Long) -> Unit,
-    onNavigateToRentals: () -> Unit = {}
+    onNavigateToRentals: () -> Unit = {},
+    onNavigateToHealthSafety: () -> Unit = {},
+    onNavigateToEmergencyContacts: () -> Unit = {}
 ) {
     val coroutineScope = rememberCoroutineScope()
     val listState = rememberLazyListState()
@@ -387,6 +390,112 @@ fun AIPlanningScreen(
                     }
                 }
 
+                // Health & Safety Card in Plan Your Trip (Requirement 20)
+                item(key = "ai_plan_health_safety_card") {
+                    Card(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp)
+                            .clip(RoundedCornerShape(16.dp))
+                            .clickable { onNavigateToHealthSafety() },
+                        shape = RoundedCornerShape(16.dp),
+                        colors = CardDefaults.cardColors(containerColor = Color.White),
+                        elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
+                    ) {
+                        Column(modifier = Modifier.padding(14.dp)) {
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.SpaceBetween,
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Row(verticalAlignment = Alignment.CenterVertically) {
+                                    Box(
+                                        modifier = Modifier
+                                            .size(36.dp)
+                                            .clip(CircleShape)
+                                            .background(Color(0xFFFF3B30).copy(alpha = 0.12f)),
+                                        contentAlignment = Alignment.Center
+                                    ) {
+                                        Icon(
+                                            imageVector = Icons.Outlined.HealthAndSafety,
+                                            contentDescription = null,
+                                            tint = Color(0xFFFF3B30),
+                                            modifier = Modifier.size(20.dp)
+                                        )
+                                    }
+                                    Spacer(modifier = Modifier.width(10.dp))
+                                    Column {
+                                        Text(
+                                            text = "HEALTH & SAFETY",
+                                            fontSize = 10.sp,
+                                            fontWeight = FontWeight.Bold,
+                                            color = Color(0xFFFF3B30),
+                                            letterSpacing = 0.8.sp
+                                        )
+                                        Text(
+                                            text = "Health & Safety",
+                                            fontSize = 14.sp,
+                                            fontWeight = FontWeight.Bold,
+                                            color = TextPrimary
+                                        )
+                                    }
+                                }
+                                Text(
+                                    text = "View Safety →",
+                                    fontSize = 12.sp,
+                                    fontWeight = FontWeight.Bold,
+                                    color = ForestGreen
+                                )
+                            }
+
+                            Spacer(modifier = Modifier.height(6.dp))
+                            Text(
+                                text = "Emergency contacts, SOS and travel safety.",
+                                fontSize = 12.sp,
+                                color = TextSecondary,
+                                lineHeight = 16.sp
+                            )
+
+                            Spacer(modifier = Modifier.height(10.dp))
+
+                            // 5 Functional Options (Requirement 20)
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.spacedBy(4.dp)
+                            ) {
+                                listOf(
+                                    "🆘 SOS" to onNavigateToHealthSafety,
+                                    "📍 Location" to onNavigateToHealthSafety,
+                                    "🏥 Hospital" to onNavigateToHealthSafety,
+                                    "👥 Contacts" to onNavigateToEmergencyContacts,
+                                    "✓ Checklist" to onNavigateToHealthSafety
+                                ).forEach { (label, onClick) ->
+                                    Box(
+                                        modifier = Modifier
+                                            .weight(1f)
+                                            .clip(RoundedCornerShape(8.dp))
+                                            .background(Color(0xFFF2F2F7))
+                                            .clickable(
+                                                indication = null,
+                                                interactionSource = remember { MutableInteractionSource() }
+                                            ) { onClick() }
+                                            .padding(vertical = 6.dp),
+                                        contentAlignment = Alignment.Center
+                                    ) {
+                                        Text(
+                                            text = label,
+                                            fontSize = 10.sp,
+                                            fontWeight = FontWeight.SemiBold,
+                                            color = TextPrimary,
+                                            maxLines = 1
+                                        )
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
                 // Quick Suggestion Chips
                 item(key = "ai_suggestion_chips") {
                     LazyRow(
@@ -441,6 +550,33 @@ fun AIPlanningScreen(
                                     Spacer(modifier = Modifier.width(4.dp))
                                     Text(
                                         text = "EV Rentals",
+                                        fontSize = 11.sp,
+                                        fontWeight = FontWeight.SemiBold,
+                                        color = TextPrimary
+                                    )
+                                }
+                            }
+                        }
+
+                        // Quick Safety Pill
+                        item {
+                            Box(
+                                modifier = Modifier
+                                    .clip(RoundedCornerShape(12.dp))
+                                    .background(Color.White)
+                                    .clickable { onNavigateToHealthSafety() }
+                                    .padding(horizontal = 10.dp, vertical = 6.dp)
+                            ) {
+                                Row(verticalAlignment = Alignment.CenterVertically) {
+                                    Icon(
+                                        imageVector = Icons.Outlined.HealthAndSafety,
+                                        contentDescription = null,
+                                        tint = Color(0xFFFF3B30),
+                                        modifier = Modifier.size(14.dp)
+                                    )
+                                    Spacer(modifier = Modifier.width(4.dp))
+                                    Text(
+                                        text = "Health & Safety",
                                         fontSize = 11.sp,
                                         fontWeight = FontWeight.SemiBold,
                                         color = TextPrimary

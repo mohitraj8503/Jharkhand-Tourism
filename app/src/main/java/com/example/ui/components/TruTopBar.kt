@@ -110,43 +110,51 @@ fun TruTopBar(
         // Apple-style Profile Avatar with Photo Edit Camera Badge
         Box(
             modifier = Modifier
-                .size(42.dp)
-                .clip(CircleShape)
-                .background(Color(0xFFC6F432)) // lime accent
-                .border(1.5.dp, ForestGreen.copy(alpha = 0.2f), CircleShape)
+                .size(44.dp)
                 .clickable { onProfileClick() }
                 .testTag("profile_avatar"),
             contentAlignment = Alignment.Center
         ) {
-            if (userPhotoUrl != null) {
-                AsyncImage(
-                    model = userPhotoUrl,
-                    contentDescription = "Profile photo",
-                    modifier = Modifier.fillMaxSize().clip(CircleShape),
-                    contentScale = ContentScale.Crop
-                )
-            } else {
-                Text(
-                    text = userInitials,
-                    fontSize = 15.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = Color(0xFF0B3D2E)
-                )
-            }
-            // Small subtle camera badge indicator so user immediately knows they can add a photo
+            // Main avatar circle
             Box(
                 modifier = Modifier
-                    .size(15.dp)
+                    .size(40.dp)
+                    .clip(CircleShape)
+                    .background(Color(0xFFC6F432)) // lime accent
+                    .border(1.5.dp, ForestGreen.copy(alpha = 0.2f), CircleShape),
+                contentAlignment = Alignment.Center
+            ) {
+                if (userPhotoUrl != null) {
+                    AsyncImage(
+                        model = userPhotoUrl,
+                        contentDescription = "Profile photo",
+                        modifier = Modifier.fillMaxSize().clip(CircleShape),
+                        contentScale = ContentScale.Crop
+                    )
+                } else {
+                    Text(
+                        text = userInitials,
+                        fontSize = 15.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color(0xFF0B3D2E)
+                    )
+                }
+            }
+
+            // Small crisp camera badge floating on bottom-right corner without clipping
+            Box(
+                modifier = Modifier
+                    .size(16.dp)
                     .align(Alignment.BottomEnd)
                     .clip(CircleShape)
-                    .background(Color.White)
-                    .border(1.dp, ForestGreen.copy(alpha = 0.4f), CircleShape),
+                    .background(ForestGreen)
+                    .border(1.5.dp, Color.White, CircleShape),
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
                     imageVector = Icons.Default.CameraAlt,
                     contentDescription = "Add/Change Photo",
-                    tint = ForestGreen,
+                    tint = LimeAccent,
                     modifier = Modifier.size(9.dp)
                 )
             }
