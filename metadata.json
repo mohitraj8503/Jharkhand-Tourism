@@ -1,0 +1,6 @@
+{
+  "name": "JharVista",
+  "description": "AI-Powered Travel Companion unifying discovery, smart booking, live itineraries, and regenerative tourism for Jharkhand.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">JharVista</string>
+    <string name="nav_home">Home</string>
+    <string name="nav_plan">Plan</string>
+    <string name="nav_flights">Flights</string>
+    <string name="nav_trips">Trips</string>
+    <string name="nav_wallet">Wallet</string>
+    <string name="your_location">Your Location</string>
+    <string name="default_location">Berlin, Germany</string>
+    <string name="search_destinations">Search Destinations</string>
+    <string name="ai_assistant_title">AI Assistant</string>
+    <string name="ai_ready_to_help">Ready to help anytime</string>
+    <string name="plan_perfect_trip">Plan Your Perfect Trip In Seconds With TRU AI</string>
+    <string name="generate_itinerary">Generate Itinerary</string>
+    <string name="search_flights">Search Flights</string>
+</resources>
