@@ -1,17 +1,31 @@
 package com.example.data.local
 
 import android.content.Context
+import android.net.Uri
+import java.io.File
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 
 class SessionManager(private val context: Context) {
     private val prefs by lazy { context.getSharedPreferences("jharvista", Context.MODE_PRIVATE) }
+
+    private val _userPhotoUrlFlow = MutableStateFlow(prefs.getString("user_photoUrl", null))
+    val userPhotoUrlFlow: StateFlow<String?> = _userPhotoUrlFlow.asStateFlow()
+
+    private val _userNameFlow = MutableStateFlow(prefs.getString("user_name", "Guest User") ?: "Guest User")
+    val userNameFlow: StateFlow<String> = _userNameFlow.asStateFlow()
 
     fun saveUser(email: String, name: String, photoUrl: String?) {
         prefs.edit().apply {
             putString("user_email", email)
             putString("user_name", name)
             if (photoUrl != null) putString("user_photoUrl", photoUrl)
+            else remove("user_photoUrl")
             apply()
         }
+        _userNameFlow.value = name
+        _userPhotoUrlFlow.value = photoUrl
     }
 
     fun updateUserProfile(name: String, email: String, phone: String, city: String) {
@@ -22,6 +36,38 @@ class SessionManager(private val context: Context) {
             putString("user_city", city)
             apply()
         }
+        _userNameFlow.value = name
+    }
+
+    fun setUserPhotoUrl(url: String?) {
+        prefs.edit().apply {
+            if (url != null) putString("user_photoUrl", url)
+            else remove("user_photoUrl")
+            apply()
+        }
+        _userPhotoUrlFlow.value = url
+    }
+
+    fun saveProfileImage(uri: Uri): String? {
+        return try {
+            val inputStream = context.contentResolver.openInputStream(uri) ?: return null
+            val profileDir = File(context.filesDir, "profile_photos")
+            if (!profileDir.exists()) profileDir.mkdirs()
+            val fileName = "profile_avatar_${System.currentTimeMillis()}.jpg"
+            val destFile = File(profileDir, fileName)
+            destFile.outputStream().use { output ->
+                inputStream.copyTo(output)
+            }
+            profileDir.listFiles()?.forEach { file ->
+                if (file.name != fileName && file.name.startsWith("profile_avatar_")) {
+                    file.delete()
+                }
+            }
+            destFile.absolutePath
+        } catch (e: Exception) {
+            e.printStackTrace()
+            null
+        }
     }
     
     fun isLoggedIn(): Boolean {
@@ -30,6 +76,8 @@ class SessionManager(private val context: Context) {
     
     fun logout() {
         prefs.edit().clear().apply()
+        _userNameFlow.value = "Guest User"
+        _userPhotoUrlFlow.value = null
     }
     
     fun getUserName(): String {

@@ -164,117 +164,124 @@ fun TripTimelineScreen(
             }
         }
 
-        // Carbon Footprint Overview Bento Bar
-        Card(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp, vertical = 6.dp)
-                .clip(RoundedCornerShape(20.dp)),
-            shape = RoundedCornerShape(20.dp),
-            colors = CardDefaults.cardColors(containerColor = ForestGreen)
-        ) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Box(
-                        modifier = Modifier
-                            .size(36.dp)
-                            .clip(CircleShape)
-                            .background(LimeAccent),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.Eco,
-                            contentDescription = null,
-                            tint = ForestGreenDark,
-                            modifier = Modifier.size(20.dp)
-                        )
-                    }
-                    Spacer(modifier = Modifier.width(10.dp))
-                    Column {
-                        Text(
-                            text = "Estimated Daily Footprint",
-                            color = Color.White.copy(alpha = 0.8f),
-                            fontSize = 11.sp
-                        )
-                        Text(
-                            text = "${String.format("%.1f", totalCarbon)} kg CO₂",
-                            color = LimeAccent,
-                            fontSize = 18.sp,
-                            fontWeight = FontWeight.Bold
-                        )
-                    }
-                }
-
-                Box(
-                    modifier = Modifier
-                        .clip(RoundedCornerShape(12.dp))
-                        .background(Color.White.copy(alpha = 0.15f))
-                        .padding(horizontal = 10.dp, vertical = 6.dp)
-                ) {
-                    Text(
-                        text = "Net-Zero Goal",
-                        color = Color.White,
-                        fontSize = 11.sp,
-                        fontWeight = FontWeight.SemiBold
-                    )
-                }
-            }
-        }
-
-        // Category Filter Pills: All | Transport | Dining | Stay | Activities
-        LazyRow(
-            contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            items(listOf("All", "Transport", "Dining", "Stay")) { cat ->
-                val isSel = selectedCategoryFilter == cat
-                val bg by animateColorAsState(if (isSel) LimeAccent else SurfaceCard, label = "cat_bg")
-                val txtColor by animateColorAsState(if (isSel) ForestGreenDark else TextSecondary, label = "cat_txt")
-
-                Box(
-                    modifier = Modifier
-                        .clip(CircleShape)
-                        .background(bg)
-                        .clickable { selectedCategoryFilter = cat }
-                        .padding(horizontal = 16.dp, vertical = 7.dp)
-                ) {
-                    Text(
-                        text = cat,
-                        color = txtColor,
-                        fontSize = 12.sp,
-                        fontWeight = if (isSel) FontWeight.Bold else FontWeight.Medium
-                    )
-                }
-            }
-        }
-
-        // Chronological Timeline Events
+        // Chronological Timeline Events & Bento Header
         LazyColumn(
             modifier = Modifier
                 .weight(1f)
-                .padding(horizontal = 16.dp),
+                .fillMaxWidth(),
             verticalArrangement = Arrangement.spacedBy(14.dp),
-            contentPadding = PaddingValues(bottom = 24.dp)
+            contentPadding = PaddingValues(top = 4.dp, bottom = 24.dp)
         ) {
-            items(filteredEvents) { event ->
-                TimelineEventCard(
-                    event = event,
-                    onEcoSwap = {
-                        coroutineScope.launch {
-                            repository.swapEventToEco(
-                                id = event.id,
-                                newTitle = "Solar EV Shuttle & Green Bike Transit",
-                                newCarbon = 0.8
+            // Carbon Footprint Overview Bento Bar
+            item(key = "carbon_footprint_card") {
+                Card(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp)
+                        .clip(RoundedCornerShape(20.dp)),
+                    shape = RoundedCornerShape(20.dp),
+                    colors = CardDefaults.cardColors(containerColor = ForestGreen)
+                ) {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Box(
+                                modifier = Modifier
+                                    .size(36.dp)
+                                    .clip(CircleShape)
+                                    .background(LimeAccent),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Default.Eco,
+                                    contentDescription = null,
+                                    tint = ForestGreenDark,
+                                    modifier = Modifier.size(20.dp)
+                                )
+                            }
+                            Spacer(modifier = Modifier.width(10.dp))
+                            Column {
+                                Text(
+                                    text = "Estimated Daily Footprint",
+                                    color = Color.White.copy(alpha = 0.8f),
+                                    fontSize = 11.sp
+                                )
+                                Text(
+                                    text = "${String.format("%.1f", totalCarbon)} kg CO₂",
+                                    color = LimeAccent,
+                                    fontSize = 18.sp,
+                                    fontWeight = FontWeight.Bold
+                                )
+                            }
+                        }
+
+                        Box(
+                            modifier = Modifier
+                                .clip(RoundedCornerShape(12.dp))
+                                .background(Color.White.copy(alpha = 0.15f))
+                                .padding(horizontal = 10.dp, vertical = 6.dp)
+                        ) {
+                            Text(
+                                text = "Net-Zero Goal",
+                                color = Color.White,
+                                fontSize = 11.sp,
+                                fontWeight = FontWeight.SemiBold
                             )
                         }
                     }
-                )
+                }
+            }
+
+            // Category Filter Pills: All | Transport | Dining | Stay | Activities
+            item(key = "category_filter_pills") {
+                LazyRow(
+                    contentPadding = PaddingValues(horizontal = 16.dp),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    items(listOf("All", "Transport", "Dining", "Stay")) { cat ->
+                        val isSel = selectedCategoryFilter == cat
+                        val bg by animateColorAsState(if (isSel) LimeAccent else SurfaceCard, label = "cat_bg")
+                        val txtColor by animateColorAsState(if (isSel) ForestGreenDark else TextSecondary, label = "cat_txt")
+
+                        Box(
+                            modifier = Modifier
+                                .clip(CircleShape)
+                                .background(bg)
+                                .clickable { selectedCategoryFilter = cat }
+                                .padding(horizontal = 16.dp, vertical = 7.dp)
+                        ) {
+                            Text(
+                                text = cat,
+                                color = txtColor,
+                                fontSize = 12.sp,
+                                fontWeight = if (isSel) FontWeight.Bold else FontWeight.Medium
+                            )
+                        }
+                    }
+                }
+            }
+
+            // Chronological Timeline Events
+            items(filteredEvents, key = { it.id }) { event ->
+                Box(modifier = Modifier.padding(horizontal = 16.dp)) {
+                    TimelineEventCard(
+                        event = event,
+                        onEcoSwap = {
+                            coroutineScope.launch {
+                                repository.swapEventToEco(
+                                    id = event.id,
+                                    newTitle = "Solar EV Shuttle & Green Bike Transit",
+                                    newCarbon = 0.8
+                                )
+                            }
+                        }
+                    )
+                }
             }
         }
     }

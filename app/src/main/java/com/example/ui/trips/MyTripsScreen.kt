@@ -81,163 +81,178 @@ fun MyTripsScreen(
         else -> allTrips
     }
 
-    Column(
+    LazyColumn(
         modifier = Modifier
             .fillMaxSize()
             .background(SurfaceWarm)
             .statusBarsPadding()
-            .navigationBarsPadding()
+            .navigationBarsPadding(),
+        verticalArrangement = Arrangement.spacedBy(14.dp),
+        contentPadding = PaddingValues(bottom = 28.dp)
     ) {
         // Header Row: Title & Plus Action
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 20.dp, vertical = 12.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Column {
-                Text(
-                    text = "My Trips",
-                    style = MaterialTheme.typography.headlineMedium,
-                    fontWeight = FontWeight.Bold,
-                    color = TextPrimary
-                )
-                Text(
-                    text = "Travel Memory & Live Itineraries",
-                    style = MaterialTheme.typography.bodySmall,
-                    color = TextMuted
-                )
-            }
-
-            Box(
+        item(key = "trips_header_row") {
+            Row(
                 modifier = Modifier
-                    .size(42.dp)
-                    .clip(CircleShape)
-                    .background(ForestGreen)
-                    .clickable { onAddNewTrip() }
-                    .testTag("add_trip_button"),
-                contentAlignment = Alignment.Center
+                    .fillMaxWidth()
+                    .padding(horizontal = 20.dp, vertical = 10.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                Icon(
-                    imageVector = Icons.Default.Add,
-                    contentDescription = "New Trip",
-                    tint = LimeAccent,
-                    modifier = Modifier.size(22.dp)
-                )
+                Column {
+                    Text(
+                        text = "My Trips",
+                        style = MaterialTheme.typography.headlineMedium,
+                        fontWeight = FontWeight.Bold,
+                        color = TextPrimary
+                    )
+                    Text(
+                        text = "Travel Memory & Live Itineraries",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = TextMuted
+                    )
+                }
+
+                Box(
+                    modifier = Modifier
+                        .size(42.dp)
+                        .clip(CircleShape)
+                        .background(ForestGreen)
+                        .clickable { onAddNewTrip() }
+                        .testTag("add_trip_button"),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Add,
+                        contentDescription = "New Trip",
+                        tint = LimeAccent,
+                        modifier = Modifier.size(22.dp)
+                    )
+                }
             }
         }
 
         // Travel Memory Stats Grid (12 Countries | 45 Saved Places | 8 Upcoming)
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 20.dp, vertical = 6.dp),
-            horizontalArrangement = Arrangement.spacedBy(10.dp)
-        ) {
-            // Stat 1
-            Card(
-                modifier = Modifier.weight(1f),
-                shape = RoundedCornerShape(18.dp),
-                colors = CardDefaults.cardColors(containerColor = SurfaceCard)
+        item(key = "trips_stats_grid") {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 20.dp),
+                horizontalArrangement = Arrangement.spacedBy(10.dp)
             ) {
-                Column(modifier = Modifier.padding(14.dp)) {
-                    Icon(
-                        imageVector = Icons.Default.Public,
-                        contentDescription = null,
-                        tint = ForestGreen,
-                        modifier = Modifier.size(20.dp)
-                    )
-                    Spacer(modifier = Modifier.height(8.dp))
-                    Text(text = "12", fontWeight = FontWeight.Bold, fontSize = 18.sp, color = TextPrimary)
-                    Text(text = "Countries", fontSize = 11.sp, color = TextMuted)
+                // Stat 1
+                Card(
+                    modifier = Modifier.weight(1f),
+                    shape = RoundedCornerShape(18.dp),
+                    colors = CardDefaults.cardColors(containerColor = SurfaceCard)
+                ) {
+                    Column(modifier = Modifier.padding(14.dp)) {
+                        Icon(
+                            imageVector = Icons.Default.Public,
+                            contentDescription = null,
+                            tint = ForestGreen,
+                            modifier = Modifier.size(20.dp)
+                        )
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Text(text = "12", fontWeight = FontWeight.Bold, fontSize = 18.sp, color = TextPrimary)
+                        Text(text = "Countries", fontSize = 11.sp, color = TextMuted)
+                    }
                 }
-            }
 
-            // Stat 2
-            Card(
-                modifier = Modifier.weight(1f),
-                shape = RoundedCornerShape(18.dp),
-                colors = CardDefaults.cardColors(containerColor = SurfaceCard)
-            ) {
-                Column(modifier = Modifier.padding(14.dp)) {
-                    Icon(
-                        imageVector = Icons.Default.Bookmark,
-                        contentDescription = null,
-                        tint = ForestGreen,
-                        modifier = Modifier.size(20.dp)
-                    )
-                    Spacer(modifier = Modifier.height(8.dp))
-                    Text(text = "45", fontWeight = FontWeight.Bold, fontSize = 18.sp, color = TextPrimary)
-                    Text(text = "Saved Places", fontSize = 11.sp, color = TextMuted)
+                // Stat 2
+                Card(
+                    modifier = Modifier.weight(1f),
+                    shape = RoundedCornerShape(18.dp),
+                    colors = CardDefaults.cardColors(containerColor = SurfaceCard)
+                ) {
+                    Column(modifier = Modifier.padding(14.dp)) {
+                        Icon(
+                            imageVector = Icons.Default.Bookmark,
+                            contentDescription = null,
+                            tint = ForestGreen,
+                            modifier = Modifier.size(20.dp)
+                        )
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Text(text = "45", fontWeight = FontWeight.Bold, fontSize = 18.sp, color = TextPrimary)
+                        Text(text = "Saved Places", fontSize = 11.sp, color = TextMuted)
+                    }
                 }
-            }
 
-            // Stat 3
-            Card(
-                modifier = Modifier.weight(1f),
-                shape = RoundedCornerShape(18.dp),
-                colors = CardDefaults.cardColors(containerColor = SurfaceCard)
-            ) {
-                Column(modifier = Modifier.padding(14.dp)) {
-                    Icon(
-                        imageVector = Icons.Default.CheckCircle,
-                        contentDescription = null,
-                        tint = EcoBadgeGreen,
-                        modifier = Modifier.size(20.dp)
-                    )
-                    Spacer(modifier = Modifier.height(8.dp))
-                    Text(text = "${allTrips.size}", fontWeight = FontWeight.Bold, fontSize = 18.sp, color = TextPrimary)
-                    Text(text = "Upcoming", fontSize = 11.sp, color = TextMuted)
+                // Stat 3
+                Card(
+                    modifier = Modifier.weight(1f),
+                    shape = RoundedCornerShape(18.dp),
+                    colors = CardDefaults.cardColors(containerColor = SurfaceCard)
+                ) {
+                    Column(modifier = Modifier.padding(14.dp)) {
+                        Icon(
+                            imageVector = Icons.Default.CheckCircle,
+                            contentDescription = null,
+                            tint = EcoBadgeGreen,
+                            modifier = Modifier.size(20.dp)
+                        )
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Text(text = "${allTrips.size}", fontWeight = FontWeight.Bold, fontSize = 18.sp, color = TextPrimary)
+                        Text(text = "Upcoming", fontSize = 11.sp, color = TextMuted)
+                    }
                 }
             }
         }
-
-        Spacer(modifier = Modifier.height(10.dp))
 
         // Tab Filter Bar: All | Upcoming | Ended | Past
-        LazyRow(
-            contentPadding = PaddingValues(horizontal = 20.dp),
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            items(tabs) { tab ->
-                val isSelected = selectedTab == tab
-                val bg by animateColorAsState(if (isSelected) ForestGreen else SurfaceCard, label = "tab_bg")
-                val txtColor by animateColorAsState(if (isSelected) LimeAccent else TextSecondary, label = "tab_txt")
+        item(key = "trips_tab_filter") {
+            LazyRow(
+                contentPadding = PaddingValues(horizontal = 20.dp),
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                items(tabs) { tab ->
+                    val isSelected = selectedTab == tab
+                    val bg by animateColorAsState(if (isSelected) ForestGreen else SurfaceCard, label = "tab_bg")
+                    val txtColor by animateColorAsState(if (isSelected) LimeAccent else TextSecondary, label = "tab_txt")
 
-                Box(
-                    modifier = Modifier
-                        .clip(CircleShape)
-                        .background(bg)
-                        .clickable { selectedTab = tab }
-                        .padding(horizontal = 18.dp, vertical = 8.dp)
-                        .testTag("trips_tab_$tab")
-                ) {
-                    Text(
-                        text = tab,
-                        color = txtColor,
-                        fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Medium,
-                        fontSize = 13.sp
-                    )
+                    Box(
+                        modifier = Modifier
+                            .clip(CircleShape)
+                            .background(bg)
+                            .clickable { selectedTab = tab }
+                            .padding(horizontal = 18.dp, vertical = 8.dp)
+                            .testTag("trips_tab_$tab")
+                    ) {
+                        Text(
+                            text = tab,
+                            color = txtColor,
+                            fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Medium,
+                            fontSize = 13.sp
+                        )
+                    }
                 }
             }
         }
 
-        Spacer(modifier = Modifier.height(14.dp))
-
         // Trips List
-        LazyColumn(
-            modifier = Modifier
-                .weight(1f)
-                .padding(horizontal = 20.dp),
-            verticalArrangement = Arrangement.spacedBy(14.dp),
-            contentPadding = PaddingValues(bottom = 20.dp)
-        ) {
-            items(filteredTrips) { trip ->
+        items(filteredTrips, key = { it.id }) { trip ->
+            Box(modifier = Modifier.padding(horizontal = 20.dp)) {
                 TripCardItem(
                     trip = trip,
                     onClick = { onNavigateToTimeline(trip.id) }
                 )
+            }
+        }
+
+        if (filteredTrips.isEmpty()) {
+            item(key = "trips_empty_state") {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 20.dp, vertical = 32.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = "No $selectedTab trips found.",
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = TextMuted
+                    )
+                }
             }
         }
     }

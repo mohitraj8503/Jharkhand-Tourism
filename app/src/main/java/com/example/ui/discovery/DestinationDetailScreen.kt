@@ -492,6 +492,7 @@ fun DestinationDetailScreen(
                 ) {
                     Text(
                         text = "View EVs",
+                        color = LimeAccent,
                         fontSize = 12.sp,
                         fontWeight = FontWeight.Bold
                     )
@@ -530,9 +531,9 @@ fun DestinationDetailScreen(
                 ),
                 elevation = ButtonDefaults.buttonElevation(0.dp)
             ) {
-                Icon(Icons.Default.Directions, contentDescription = null, modifier = Modifier.size(18.dp))
+                Icon(Icons.Default.Directions, contentDescription = null, tint = Color.White, modifier = Modifier.size(18.dp))
                 Spacer(modifier = Modifier.width(8.dp))
-                Text("Get Directions", fontWeight = FontWeight.Bold, fontSize = 15.sp)
+                Text("Get Directions", color = Color.White, fontWeight = FontWeight.Bold, fontSize = 15.sp)
             }
 
             Row(
@@ -552,9 +553,9 @@ fun DestinationDetailScreen(
                     ),
                     elevation = ButtonDefaults.buttonElevation(0.dp)
                 ) {
-                    Icon(Icons.Default.Luggage, contentDescription = null, modifier = Modifier.size(18.dp))
+                    Icon(Icons.Default.Luggage, contentDescription = null, tint = Color(0xFF06241B), modifier = Modifier.size(18.dp))
                     Spacer(modifier = Modifier.width(6.dp))
-                    Text("Add to Trip", fontWeight = FontWeight.Bold, fontSize = 14.sp)
+                    Text("Add to Trip", color = Color(0xFF06241B), fontWeight = FontWeight.Bold, fontSize = 14.sp)
                 }
 
                 // Play Audio Guide Button

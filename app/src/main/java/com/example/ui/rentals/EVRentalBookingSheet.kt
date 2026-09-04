@@ -512,11 +512,13 @@ fun EVRentalBookingSheet(
                     Icon(
                         imageVector = Icons.Default.DirectionsCar,
                         contentDescription = null,
+                        tint = LimeAccent,
                         modifier = Modifier.size(18.dp)
                     )
                     Spacer(modifier = Modifier.width(8.dp))
                     Text(
                         text = "Confirm Booking & Add to Trip",
+                        color = LimeAccent,
                         fontSize = 15.sp,
                         fontWeight = FontWeight.Bold
                     )
@@ -624,7 +626,7 @@ fun EVBookingConfirmationDialog(
                         contentColor = LimeAccent
                     )
                 ) {
-                    Text(text = "View Trip", fontSize = 15.sp, fontWeight = FontWeight.Bold)
+                    Text(text = "View Trip", color = LimeAccent, fontSize = 15.sp, fontWeight = FontWeight.Bold)
                 }
 
                 Spacer(modifier = Modifier.height(8.dp))

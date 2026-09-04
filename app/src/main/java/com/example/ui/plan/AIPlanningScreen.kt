@@ -127,6 +127,9 @@ fun AIPlanningScreen(
         "Dalma Wildlife & Jamshedpur Heritage"
     )
 
+    // When user has asked something or chat is underway, AI expands to 100% FULL SCREEN
+    var showIntroCards by remember { mutableStateOf(messages.none { it.isUser }) }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -135,7 +138,7 @@ fun AIPlanningScreen(
             .navigationBarsPadding()
             .imePadding()
     ) {
-        // Screen Header: Back Arrow, "AI Assistant", "Ready to help anytime"
+        // Screen Header: Back Arrow, "AI Assistant", Full-screen toggle, Brand Logo
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -167,11 +170,29 @@ fun AIPlanningScreen(
                     color = TextPrimary
                 )
                 Text(
-                    text = "Ready to help anytime",
+                    text = if (showIntroCards) "Ready to help anytime" else "Full Screen Travel AI",
                     style = MaterialTheme.typography.bodySmall,
                     color = ForestGreen
                 )
             }
+
+            // Quick Toggle: Fullscreen Chat <-> Intro Cards
+            IconButton(
+                onClick = { showIntroCards = !showIntroCards },
+                modifier = Modifier
+                    .size(36.dp)
+                    .clip(CircleShape)
+                    .background(if (showIntroCards) SurfaceCard else ForestGreen.copy(alpha = 0.15f))
+            ) {
+                Icon(
+                    imageVector = Icons.Default.AutoAwesome,
+                    contentDescription = if (showIntroCards) "Full Screen AI" else "Show Info Cards",
+                    tint = ForestGreen,
+                    modifier = Modifier.size(18.dp)
+                )
+            }
+
+            Spacer(modifier = Modifier.width(8.dp))
 
             // Official Brand Logo Badge
             androidx.compose.foundation.Image(
@@ -183,227 +204,334 @@ fun AIPlanningScreen(
             )
         }
 
-        // Hero Card (Dark Green Presentation Card)
-        Card(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp, vertical = 6.dp)
-                .clip(RoundedCornerShape(20.dp)),
-            shape = RoundedCornerShape(20.dp),
-            colors = CardDefaults.cardColors(containerColor = ForestGreen)
-        ) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Column(modifier = Modifier.weight(1f)) {
-                    Text(
-                        text = "Plan Your Perfect Trip In Seconds With JharVista AI",
-                        color = Color.White,
-                        fontSize = 15.sp,
-                        fontWeight = FontWeight.Bold,
-                        lineHeight = 20.sp
-                    )
-                    Spacer(modifier = Modifier.height(4.dp))
-                    Text(
-                        text = "Instant personalized itineraries powered by Gemini & verified local data.",
-                        color = LimeAccent,
-                        fontSize = 11.sp
-                    )
-                }
-            }
-        }
-
-        // Prominent Rentals Card inside Plan Your Trip (Section 1 & Section 14)
-        Card(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp, vertical = 6.dp)
-                .clip(RoundedCornerShape(18.dp))
-                .clickable(
-                    indication = null,
-                    interactionSource = remember { MutableInteractionSource() }
-                ) { onNavigateToRentals() },
-            shape = RoundedCornerShape(18.dp),
-            colors = CardDefaults.cardColors(containerColor = Color.White),
-            border = androidx.compose.foundation.BorderStroke(0.5.dp, Color(0xFFE5E5EA)),
-            elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
-        ) {
-            Column(modifier = Modifier.padding(14.dp)) {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Box(
-                            modifier = Modifier
-                                .size(36.dp)
-                                .clip(RoundedCornerShape(10.dp))
-                                .background(ForestGreen),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Icon(
-                                imageVector = Icons.Default.DirectionsCar,
-                                contentDescription = null,
-                                tint = LimeAccent,
-                                modifier = Modifier.size(20.dp)
-                            )
-                        }
-                        Spacer(modifier = Modifier.width(10.dp))
-                        Column {
-                            Text(
-                                text = "RENTALS",
-                                fontSize = 11.sp,
-                                fontWeight = FontWeight.Bold,
-                                color = ForestGreen,
-                                letterSpacing = 0.8.sp
-                            )
-                            Text(
-                                text = "Explore Without a Carbon Trail",
-                                fontSize = 14.sp,
-                                fontWeight = FontWeight.Bold,
-                                color = TextPrimary
-                            )
-                        }
-                    }
-                    Text(
-                        text = "Explore EVs →",
-                        fontSize = 12.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = ForestGreen
-                    )
-                }
-
-                Spacer(modifier = Modifier.height(6.dp))
-                Text(
-                    text = "Electric mobility for your Jharkhand journey. Clean rides across Ranchi, Jamshedpur & Deoghar.",
-                    fontSize = 12.sp,
-                    color = TextSecondary,
-                    lineHeight = 16.sp
-                )
-
-                Spacer(modifier = Modifier.height(10.dp))
-
-                // 4 Functional Options
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(6.dp)
-                ) {
-                    Box(
-                        modifier = Modifier
-                            .weight(1f)
-                            .clip(RoundedCornerShape(10.dp))
-                            .background(Color(0xFFF2F2F7))
-                            .clickable(
-                                indication = null,
-                                interactionSource = remember { MutableInteractionSource() }
-                            ) { onNavigateToRentals() }
-                            .padding(vertical = 6.dp),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Text(text = "🚗 Rent EV", fontSize = 11.sp, fontWeight = FontWeight.SemiBold, color = TextPrimary)
-                    }
-                    Box(
-                        modifier = Modifier
-                            .weight(1f)
-                            .clip(RoundedCornerShape(10.dp))
-                            .background(Color(0xFFF2F2F7))
-                            .clickable(
-                                indication = null,
-                                interactionSource = remember { MutableInteractionSource() }
-                            ) { onNavigateToRentals() }
-                            .padding(vertical = 6.dp),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Text(text = "📍 Pickup", fontSize = 11.sp, fontWeight = FontWeight.SemiBold, color = TextPrimary)
-                    }
-                    Box(
-                        modifier = Modifier
-                            .weight(1f)
-                            .clip(RoundedCornerShape(10.dp))
-                            .background(Color(0xFFF2F2F7))
-                            .clickable(
-                                indication = null,
-                                interactionSource = remember { MutableInteractionSource() }
-                            ) { onNavigateToRentals() }
-                            .padding(vertical = 6.dp),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Text(text = "🔌 Charging", fontSize = 11.sp, fontWeight = FontWeight.SemiBold, color = TextPrimary)
-                    }
-                    Box(
-                        modifier = Modifier
-                            .weight(1f)
-                            .clip(RoundedCornerShape(10.dp))
-                            .background(Color(0xFFF2F2F7))
-                            .clickable(
-                                indication = null,
-                                interactionSource = remember { MutableInteractionSource() }
-                            ) { onNavigateToRentals() }
-                            .padding(vertical = 6.dp),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Text(text = "🌿 Savings", fontSize = 11.sp, fontWeight = FontWeight.SemiBold, color = TextPrimary)
-                    }
-                }
-            }
-        }
-
-        // Quick Suggestion Chips
-        LazyRow(
-            contentPadding = PaddingValues(horizontal = 16.dp, vertical = 6.dp),
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            items(samplePrompts) { prompt ->
-                Box(
-                    modifier = Modifier
-                        .clip(RoundedCornerShape(14.dp))
-                        .background(SurfaceCard)
-                        .clickable {
-                            inputText = prompt
-                        }
-                        .padding(horizontal = 12.dp, vertical = 6.dp)
-                ) {
-                    Text(
-                        text = prompt,
-                        fontSize = 12.sp,
-                        color = TextSecondary,
-                        fontWeight = FontWeight.Medium
-                    )
-                }
-            }
-        }
-
-        // Conversation Message Thread
+        // Conversation & Content Thread
         LazyColumn(
             state = listState,
             modifier = Modifier
                 .weight(1f)
-                .padding(horizontal = 16.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp)
+                .fillMaxWidth(),
+            verticalArrangement = Arrangement.spacedBy(12.dp),
+            contentPadding = PaddingValues(top = 4.dp, bottom = 12.dp)
         ) {
-            items(messages) { msg ->
-                if (msg.isUser) {
-                    UserChatBubble(msg.message, msg.timestamp)
-                } else {
-                    AiChatBubble(
-                        message = msg,
-                        onGenerateTimelineClick = {
-                            onNavigateToTimeline(1L) // navigates to active Japan/Bali itinerary
+            if (showIntroCards) {
+                // Hero Card (Dark Green Presentation Card)
+                item(key = "ai_hero_card") {
+                    Card(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp)
+                            .clip(RoundedCornerShape(20.dp)),
+                        shape = RoundedCornerShape(20.dp),
+                        colors = CardDefaults.cardColors(containerColor = ForestGreen)
+                    ) {
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(16.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Column(modifier = Modifier.weight(1f)) {
+                                Text(
+                                    text = "Plan Your Perfect Trip In Seconds With JharVista AI",
+                                    color = Color.White,
+                                    fontSize = 15.sp,
+                                    fontWeight = FontWeight.Bold,
+                                    lineHeight = 20.sp
+                                )
+                                Spacer(modifier = Modifier.height(4.dp))
+                                Text(
+                                    text = "Instant personalized itineraries powered by Gemini & verified local data.",
+                                    color = LimeAccent,
+                                    fontSize = 11.sp
+                                )
+                            }
                         }
-                    )
+                    }
+                }
+
+                // Prominent Rentals Card inside Plan Your Trip (Section 1 & Section 14)
+                item(key = "ai_rentals_card") {
+                    Card(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp)
+                            .clip(RoundedCornerShape(18.dp))
+                            .clickable(
+                                indication = null,
+                                interactionSource = remember { MutableInteractionSource() }
+                            ) { onNavigateToRentals() },
+                        shape = RoundedCornerShape(18.dp),
+                        colors = CardDefaults.cardColors(containerColor = Color.White),
+                        border = androidx.compose.foundation.BorderStroke(0.5.dp, Color(0xFFE5E5EA)),
+                        elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
+                    ) {
+                        Column(modifier = Modifier.padding(14.dp)) {
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.SpaceBetween,
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Row(verticalAlignment = Alignment.CenterVertically) {
+                                    Box(
+                                        modifier = Modifier
+                                            .size(36.dp)
+                                            .clip(RoundedCornerShape(10.dp))
+                                            .background(ForestGreen),
+                                        contentAlignment = Alignment.Center
+                                    ) {
+                                        Icon(
+                                            imageVector = Icons.Default.DirectionsCar,
+                                            contentDescription = null,
+                                            tint = LimeAccent,
+                                            modifier = Modifier.size(20.dp)
+                                        )
+                                    }
+                                    Spacer(modifier = Modifier.width(10.dp))
+                                    Column {
+                                        Text(
+                                            text = "RENTALS",
+                                            fontSize = 11.sp,
+                                            fontWeight = FontWeight.Bold,
+                                            color = ForestGreen,
+                                            letterSpacing = 0.8.sp
+                                        )
+                                        Text(
+                                            text = "Explore Without a Carbon Trail",
+                                            fontSize = 14.sp,
+                                            fontWeight = FontWeight.Bold,
+                                            color = TextPrimary
+                                        )
+                                    }
+                                }
+                                Text(
+                                    text = "Explore EVs →",
+                                    fontSize = 12.sp,
+                                    fontWeight = FontWeight.Bold,
+                                    color = ForestGreen
+                                )
+                            }
+
+                            Spacer(modifier = Modifier.height(6.dp))
+                            Text(
+                                text = "Electric mobility for your Jharkhand journey. Clean rides across Ranchi, Jamshedpur & Deoghar.",
+                                fontSize = 12.sp,
+                                color = TextSecondary,
+                                lineHeight = 16.sp
+                            )
+
+                            Spacer(modifier = Modifier.height(10.dp))
+
+                            // 4 Functional Options
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.spacedBy(6.dp)
+                            ) {
+                                Box(
+                                    modifier = Modifier
+                                        .weight(1f)
+                                        .clip(RoundedCornerShape(10.dp))
+                                        .background(Color(0xFFF2F2F7))
+                                        .clickable(
+                                            indication = null,
+                                            interactionSource = remember { MutableInteractionSource() }
+                                        ) { onNavigateToRentals() }
+                                        .padding(vertical = 6.dp),
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    Text(text = "🚗 Rent EV", fontSize = 11.sp, fontWeight = FontWeight.SemiBold, color = TextPrimary)
+                                }
+                                Box(
+                                    modifier = Modifier
+                                        .weight(1f)
+                                        .clip(RoundedCornerShape(10.dp))
+                                        .background(Color(0xFFF2F2F7))
+                                        .clickable(
+                                            indication = null,
+                                            interactionSource = remember { MutableInteractionSource() }
+                                        ) { onNavigateToRentals() }
+                                        .padding(vertical = 6.dp),
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    Text(text = "📍 Pickup", fontSize = 11.sp, fontWeight = FontWeight.SemiBold, color = TextPrimary)
+                                }
+                                Box(
+                                    modifier = Modifier
+                                        .weight(1f)
+                                        .clip(RoundedCornerShape(10.dp))
+                                        .background(Color(0xFFF2F2F7))
+                                        .clickable(
+                                            indication = null,
+                                            interactionSource = remember { MutableInteractionSource() }
+                                        ) { onNavigateToRentals() }
+                                        .padding(vertical = 6.dp),
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    Text(text = "🔌 Charging", fontSize = 11.sp, fontWeight = FontWeight.SemiBold, color = TextPrimary)
+                                }
+                                Box(
+                                    modifier = Modifier
+                                        .weight(1f)
+                                        .clip(RoundedCornerShape(10.dp))
+                                        .background(Color(0xFFF2F2F7))
+                                        .clickable(
+                                            indication = null,
+                                            interactionSource = remember { MutableInteractionSource() }
+                                        ) { onNavigateToRentals() }
+                                        .padding(vertical = 6.dp),
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    Text(text = "🌿 Savings", fontSize = 11.sp, fontWeight = FontWeight.SemiBold, color = TextPrimary)
+                                }
+                            }
+                        }
+                    }
+                }
+
+                // Quick Suggestion Chips
+                item(key = "ai_suggestion_chips") {
+                    LazyRow(
+                        contentPadding = PaddingValues(horizontal = 16.dp),
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        items(samplePrompts) { prompt ->
+                            Box(
+                                modifier = Modifier
+                                    .clip(RoundedCornerShape(14.dp))
+                                    .background(SurfaceCard)
+                                    .clickable {
+                                        showIntroCards = false
+                                        inputText = prompt
+                                    }
+                                    .padding(horizontal = 12.dp, vertical = 6.dp)
+                            ) {
+                                Text(
+                                    text = prompt,
+                                    fontSize = 12.sp,
+                                    color = TextSecondary,
+                                    fontWeight = FontWeight.Medium
+                                )
+                            }
+                        }
+                    }
+                }
+            } else {
+                // Compact Quick Actions Bar in Full Screen AI Mode
+                item(key = "ai_compact_actions_bar") {
+                    LazyRow(
+                        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 2.dp),
+                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        // Quick Rentals Pill
+                        item {
+                            Box(
+                                modifier = Modifier
+                                    .clip(RoundedCornerShape(12.dp))
+                                    .background(Color.White)
+                                    .clickable { onNavigateToRentals() }
+                                    .padding(horizontal = 10.dp, vertical = 6.dp)
+                            ) {
+                                Row(verticalAlignment = Alignment.CenterVertically) {
+                                    Icon(
+                                        imageVector = Icons.Default.DirectionsCar,
+                                        contentDescription = null,
+                                        tint = ForestGreen,
+                                        modifier = Modifier.size(14.dp)
+                                    )
+                                    Spacer(modifier = Modifier.width(4.dp))
+                                    Text(
+                                        text = "EV Rentals",
+                                        fontSize = 11.sp,
+                                        fontWeight = FontWeight.SemiBold,
+                                        color = TextPrimary
+                                    )
+                                }
+                            }
+                        }
+
+                        // New Trip Reset Pill
+                        item {
+                            Box(
+                                modifier = Modifier
+                                    .clip(RoundedCornerShape(12.dp))
+                                    .background(ForestGreen)
+                                    .clickable {
+                                        messages.clear()
+                                        messages.add(
+                                            ChatMessage(
+                                                id = "msg-1",
+                                                isUser = false,
+                                                message = "Hello! I am JharVista AI, your personal travel companion for Jharkhand. Tell me about your dream destination — which waterfalls, hills, or wildlife sanctuaries would you like to explore and for how many days?",
+                                                timestamp = "Just now"
+                                            )
+                                        )
+                                        showIntroCards = true
+                                    }
+                                    .padding(horizontal = 10.dp, vertical = 6.dp)
+                            ) {
+                                Row(verticalAlignment = Alignment.CenterVertically) {
+                                    Icon(
+                                        imageVector = Icons.Default.AutoAwesome,
+                                        contentDescription = null,
+                                        tint = LimeAccent,
+                                        modifier = Modifier.size(13.dp)
+                                    )
+                                    Spacer(modifier = Modifier.width(4.dp))
+                                    Text(
+                                        text = "New Plan",
+                                        fontSize = 11.sp,
+                                        fontWeight = FontWeight.SemiBold,
+                                        color = Color.White
+                                    )
+                                }
+                            }
+                        }
+
+                        // Suggestion Pills
+                        items(samplePrompts) { prompt ->
+                            Box(
+                                modifier = Modifier
+                                    .clip(RoundedCornerShape(12.dp))
+                                    .background(SurfaceCard)
+                                    .clickable {
+                                        inputText = prompt
+                                    }
+                                    .padding(horizontal = 10.dp, vertical = 6.dp)
+                            ) {
+                                Text(
+                                    text = prompt,
+                                    fontSize = 11.sp,
+                                    color = TextSecondary,
+                                    fontWeight = FontWeight.Medium
+                                )
+                            }
+                        }
+                    }
+                }
+            }
+
+            // Conversation Message Thread (Full Screen)
+            items(messages, key = { it.id }) { msg ->
+                Box(modifier = Modifier.padding(horizontal = 16.dp)) {
+                    if (msg.isUser) {
+                        UserChatBubble(msg.message, msg.timestamp)
+                    } else {
+                        AiChatBubble(
+                            message = msg,
+                            onGenerateTimelineClick = {
+                                onNavigateToTimeline(1L) // navigates to active Japan/Bali itinerary
+                            }
+                        )
+                    }
                 }
             }
 
             if (isLoading) {
-                item {
+                item(key = "ai_loading_indicator") {
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(vertical = 8.dp),
+                            .padding(horizontal = 16.dp, vertical = 8.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         CircularProgressIndicator(
@@ -463,41 +591,44 @@ fun AIPlanningScreen(
                     .size(46.dp)
                     .clip(CircleShape)
                     .background(if (inputText.isNotBlank() && !isLoading) LimeAccent else Color(0xFFE0E0E0))
-                    .clickable(enabled = inputText.isNotBlank() && !isLoading) {
-                        val prompt = inputText.trim()
-                        inputText = ""
+                .clickable(enabled = inputText.isNotBlank() && !isLoading) {
+                    val prompt = inputText.trim()
+                    inputText = ""
+                    showIntroCards = false
+                    messages.add(
+                        ChatMessage(
+                            id = "user-${System.currentTimeMillis()}",
+                            isUser = true,
+                            message = prompt,
+                            timestamp = "Just now"
+                        )
+                    )
+                    isLoading = true
+
+                    coroutineScope.launch {
+                        val offset = if (showIntroCards) 3 else 1
+                        listState.animateScrollToItem((offset + messages.size - 1).coerceAtLeast(0))
+                        val aiResponse = repository.generateAiItinerary(prompt)
                         messages.add(
                             ChatMessage(
-                                id = "user-${System.currentTimeMillis()}",
-                                isUser = true,
-                                message = prompt,
-                                timestamp = "Just now"
+                                id = "ai-${System.currentTimeMillis()}",
+                                isUser = false,
+                                message = aiResponse,
+                                timestamp = "Just now",
+                                isActionCard = true,
+                                cardTitle = "Complete Itinerary Generated",
+                                cardSubtext = "Review scheduled time blocks and green transport options.",
+                                actionText = "Generate Itinerary"
                             )
                         )
-                        isLoading = true
-
-                        coroutineScope.launch {
-                            listState.animateScrollToItem(messages.size - 1)
-                            val aiResponse = repository.generateAiItinerary(prompt)
-                            messages.add(
-                                ChatMessage(
-                                    id = "ai-${System.currentTimeMillis()}",
-                                    isUser = false,
-                                    message = aiResponse,
-                                    timestamp = "Just now",
-                                    isActionCard = true,
-                                    cardTitle = "Complete Itinerary Generated",
-                                    cardSubtext = "Review scheduled time blocks and green transport options.",
-                                    actionText = "Generate Itinerary"
-                                )
-                            )
-                            isLoading = false
-                            listState.animateScrollToItem(messages.size - 1)
-                        }
+                        isLoading = false
+                        val newOffset = if (showIntroCards) 3 else 1
+                        listState.animateScrollToItem((newOffset + messages.size - 1).coerceAtLeast(0))
                     }
-                    .testTag("ai_send_button"),
-                contentAlignment = Alignment.Center
-            ) {
+                }
+                .testTag("ai_send_button"),
+            contentAlignment = Alignment.Center
+        ) {
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.Send,
                     contentDescription = "Send",

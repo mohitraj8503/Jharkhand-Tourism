@@ -1,8 +1,12 @@
 package com.example.ui.profile
 
+import android.net.Uri
 import android.widget.Toast
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -56,7 +60,21 @@ fun ProfileScreen(
     var userEmail by remember { mutableStateOf(sessionManager.getUserEmail()) }
     var userPhone by remember { mutableStateOf(sessionManager.getUserPhone()) }
     var userCity by remember { mutableStateOf(sessionManager.getUserCity()) }
-    val userPhotoUrl = sessionManager.getUserPhotoUrl()
+    val userPhotoUrl by sessionManager.userPhotoUrlFlow.collectAsState()
+
+    val photoPickerLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.GetContent()
+    ) { uri: Uri? ->
+        uri?.let {
+            val savedPath = sessionManager.saveProfileImage(it)
+            if (savedPath != null) {
+                sessionManager.setUserPhotoUrl(savedPath)
+                coroutineScope.launch {
+                    snackbarHostState.showSnackbar("Profile photo updated!")
+                }
+            }
+        }
+    }
 
     // Preferences State
     var selectedLanguage by remember { mutableStateOf(sessionManager.getLanguage()) }
@@ -140,20 +158,21 @@ fun ProfileScreen(
                             modifier = Modifier.fillMaxWidth(),
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            // Avatar (Clickable to edit profile)
+                            // Avatar (Clickable to edit profile photo directly)
                             Box(
                                 modifier = Modifier
                                     .size(88.dp)
                                     .clip(CircleShape)
                                     .background(Color(0xFFC6F432)) // LimeAccent
-                                    .clickable { showEditProfileSheet = true },
+                                    .border(2.dp, Color.White.copy(alpha = 0.4f), CircleShape)
+                                    .clickable { photoPickerLauncher.launch("image/*") },
                                 contentAlignment = Alignment.Center
                             ) {
                                 if (userPhotoUrl != null) {
                                     AsyncImage(
                                         model = userPhotoUrl,
                                         contentDescription = "Profile Photo",
-                                        modifier = Modifier.fillMaxSize(),
+                                        modifier = Modifier.fillMaxSize().clip(CircleShape),
                                         contentScale = ContentScale.Crop
                                     )
                                 } else {
@@ -162,6 +181,24 @@ fun ProfileScreen(
                                         fontSize = 30.sp,
                                         fontWeight = FontWeight.Bold,
                                         color = Color(0xFF0B3D2E)
+                                    )
+                                }
+
+                                // Apple-style Camera Badge Overlay
+                                Box(
+                                    modifier = Modifier
+                                        .size(26.dp)
+                                        .align(Alignment.BottomEnd)
+                                        .clip(CircleShape)
+                                        .background(Color(0xFF0B3D2E))
+                                        .border(2.dp, Color.White, CircleShape),
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    Icon(
+                                        imageVector = Icons.Default.CameraAlt,
+                                        contentDescription = "Change photo",
+                                        tint = Color(0xFFC6F432),
+                                        modifier = Modifier.size(13.dp)
                                     )
                                 }
                             }
@@ -604,6 +641,81 @@ fun ProfileScreen(
                     Text("Edit Profile", fontSize = 20.sp, fontWeight = FontWeight.Bold, color = Color(0xFF0B3D2E))
                     IconButton(onClick = { showEditProfileSheet = false }) {
                         Icon(Icons.Default.Close, contentDescription = "Close")
+                    }
+                }
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                // Avatar Photo Edit Section
+                Column(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .size(84.dp)
+                            .clip(CircleShape)
+                            .background(Color(0xFFC6F432))
+                            .border(2.dp, Color(0xFF0B3D2E).copy(alpha = 0.2f), CircleShape)
+                            .clickable { photoPickerLauncher.launch("image/*") },
+                        contentAlignment = Alignment.Center
+                    ) {
+                        if (userPhotoUrl != null) {
+                            AsyncImage(
+                                model = userPhotoUrl,
+                                contentDescription = "Profile Photo",
+                                modifier = Modifier.fillMaxSize().clip(CircleShape),
+                                contentScale = ContentScale.Crop
+                            )
+                        } else {
+                            Text(
+                                text = initials,
+                                fontSize = 28.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = Color(0xFF0B3D2E)
+                            )
+                        }
+                        Box(
+                            modifier = Modifier
+                                .size(26.dp)
+                                .align(Alignment.BottomEnd)
+                                .clip(CircleShape)
+                                .background(Color(0xFF0B3D2E))
+                                .border(1.5.dp, Color.White, CircleShape),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.CameraAlt,
+                                contentDescription = "Change photo",
+                                tint = Color(0xFFC6F432),
+                                modifier = Modifier.size(13.dp)
+                            )
+                        }
+                    }
+
+                    Spacer(modifier = Modifier.height(8.dp))
+
+                    Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                        Button(
+                            onClick = { photoPickerLauncher.launch("image/*") },
+                            shape = RoundedCornerShape(10.dp),
+                            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF0B3D2E)),
+                            contentPadding = PaddingValues(horizontal = 14.dp, vertical = 6.dp)
+                        ) {
+                            Icon(Icons.Default.CameraAlt, contentDescription = null, tint = Color(0xFFC6F432), modifier = Modifier.size(14.dp))
+                            Spacer(modifier = Modifier.width(6.dp))
+                            Text("Change Photo", fontSize = 12.sp, fontWeight = FontWeight.SemiBold)
+                        }
+
+                        if (userPhotoUrl != null) {
+                            OutlinedButton(
+                                onClick = { sessionManager.setUserPhotoUrl(null) },
+                                shape = RoundedCornerShape(10.dp),
+                                contentPadding = PaddingValues(horizontal = 12.dp, vertical = 6.dp)
+                            ) {
+                                Text("Remove", fontSize = 12.sp, color = Color(0xFFFF3B30))
+                            }
+                        }
                     }
                 }
 

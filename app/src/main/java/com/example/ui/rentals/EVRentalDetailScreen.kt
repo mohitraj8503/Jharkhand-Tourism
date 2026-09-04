@@ -501,6 +501,7 @@ fun EVRentalDetailScreen(
             ) {
                 Text(
                     text = "Rent Now • ₹${rental.pricePerDay}/day",
+                    color = LimeAccent,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold
                 )

@@ -288,7 +288,8 @@ fun TruApp(repository: TruRepository) {
                             navController.navigate(Screen.DestinationDetail.createRoute(destId))
                         },
                         userInitials = initials,
-                        userPhotoUrl = sessionManager.getUserPhotoUrl()
+                        userPhotoUrl = sessionManager.getUserPhotoUrl(),
+                        sessionManager = sessionManager
                     )
                 }
 

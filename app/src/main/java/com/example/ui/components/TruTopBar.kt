@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.CameraAlt
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.Icon
@@ -106,11 +107,13 @@ fun TruTopBar(
             }
         }
         
+        // Apple-style Profile Avatar with Photo Edit Camera Badge
         Box(
             modifier = Modifier
-                .size(40.dp)
+                .size(42.dp)
                 .clip(CircleShape)
                 .background(Color(0xFFC6F432)) // lime accent
+                .border(1.5.dp, ForestGreen.copy(alpha = 0.2f), CircleShape)
                 .clickable { onProfileClick() }
                 .testTag("profile_avatar"),
             contentAlignment = Alignment.Center
@@ -125,9 +128,26 @@ fun TruTopBar(
             } else {
                 Text(
                     text = userInitials,
-                    fontSize = 16.sp,
+                    fontSize = 15.sp,
                     fontWeight = FontWeight.Bold,
                     color = Color(0xFF0B3D2E)
+                )
+            }
+            // Small subtle camera badge indicator so user immediately knows they can add a photo
+            Box(
+                modifier = Modifier
+                    .size(15.dp)
+                    .align(Alignment.BottomEnd)
+                    .clip(CircleShape)
+                    .background(Color.White)
+                    .border(1.dp, ForestGreen.copy(alpha = 0.4f), CircleShape),
+                contentAlignment = Alignment.Center
+            ) {
+                Icon(
+                    imageVector = Icons.Default.CameraAlt,
+                    contentDescription = "Add/Change Photo",
+                    tint = ForestGreen,
+                    modifier = Modifier.size(9.dp)
                 )
             }
         }

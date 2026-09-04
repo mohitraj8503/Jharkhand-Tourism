@@ -696,6 +696,7 @@ private fun EVRentalCard(
                     ) {
                         Text(
                             text = "Rent Now",
+                            color = LimeAccent,
                             fontSize = 14.sp,
                             fontWeight = FontWeight.Bold
                         )
@@ -792,6 +793,7 @@ private fun ChargingStationCard(
                     Spacer(modifier = Modifier.width(6.dp))
                     Text(
                         text = "Navigate",
+                        color = ForestGreen,
                         fontSize = 12.sp,
                         fontWeight = FontWeight.Bold
                     )
@@ -877,7 +879,7 @@ private fun EmptyRentalState(onClearFilters: () -> Unit) {
                 contentColor = LimeAccent
             )
         ) {
-            Text(text = "Clear Filters", fontSize = 14.sp, fontWeight = FontWeight.Bold)
+            Text(text = "Clear Filters", color = LimeAccent, fontSize = 14.sp, fontWeight = FontWeight.Bold)
         }
     }
 }

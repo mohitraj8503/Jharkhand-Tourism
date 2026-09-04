@@ -834,6 +834,7 @@ fun WhereToGoDestinationCard(
                 ) {
                     Text(
                         text = "Explore Destination",
+                        color = Color.White,
                         fontSize = 14.sp,
                         fontWeight = FontWeight.Bold
                     )
@@ -907,6 +908,7 @@ fun WhereToGoEmptyState(
             ) {
                 Text(
                     text = "Clear Search",
+                    color = Color.White,
                     fontSize = 14.sp,
                     fontWeight = FontWeight.SemiBold
                 )

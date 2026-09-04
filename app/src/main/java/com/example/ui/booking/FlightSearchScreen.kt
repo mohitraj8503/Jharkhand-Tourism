@@ -431,7 +431,7 @@ fun FlightSearchScreen(
                         ),
                         shape = RoundedCornerShape(14.dp)
                     ) {
-                        Text("Done", fontWeight = FontWeight.Bold)
+                        Text("Done", color = Color.White, fontWeight = FontWeight.Bold)
                     }
                 }
             }

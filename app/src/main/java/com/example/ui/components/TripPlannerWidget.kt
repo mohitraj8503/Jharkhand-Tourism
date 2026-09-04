@@ -18,110 +18,133 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AutoAwesome
+import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.ui.theme.ForestGreen
 import com.example.ui.theme.ForestGreenDark
 import com.example.ui.theme.LimeAccent
 
 @Composable
 fun TripPlannerWidget(
-    tripName: String = "Japan Spring Trip",
-    percentReady: Int = 68,
-    daysLeft: Int = 5,
+    tripName: String = "Betla Safari Adventure",
+    circuitSubtitle: String = "Betla & Netarhat Eco-Circuit",
+    percentReady: Int = 85,
+    daysLeft: Int = 18,
+    pendingTasksText: String = "2 tasks pending: Safari permit & EV rental",
     onClick: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     Card(
         modifier = modifier
             .fillMaxWidth()
-            .clip(RoundedCornerShape(36.dp))
+            .clip(RoundedCornerShape(26.dp))
             .clickable { onClick() }
             .testTag("trip_planner_widget"),
-        shape = RoundedCornerShape(36.dp),
-        colors = CardDefaults.cardColors(containerColor = ForestGreen),
-        elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
+        shape = RoundedCornerShape(26.dp),
+        colors = CardDefaults.cardColors(containerColor = Color(0xFF0B3324)),
+        border = androidx.compose.foundation.BorderStroke(1.dp, Color.White.copy(alpha = 0.12f)),
+        elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
     ) {
         Box(
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(
+                    brush = Brush.verticalGradient(
+                        colors = listOf(Color(0xFF0F3E2C), Color(0xFF08261B))
+                    )
+                )
         ) {
-            // Glow effect in top right
+            // Apple-style subtle ambient glow in top right
             Box(
                 modifier = Modifier
-                    .size(160.dp)
+                    .size(150.dp)
                     .align(Alignment.TopEnd)
-                    .offset(x = 32.dp, y = (-32).dp)
-                    .blur(80.dp)
-                    .background(LimeAccent.copy(alpha = 0.2f), CircleShape)
+                    .offset(x = 40.dp, y = (-40).dp)
+                    .blur(70.dp)
+                    .background(LimeAccent.copy(alpha = 0.25f), CircleShape)
             )
 
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(24.dp)
+                    .padding(22.dp)
             ) {
-                // Header Row
+                // Header Row (Weighted title to prevent badge squishing)
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.Top
                 ) {
-                    Column {
+                    Column(
+                        modifier = Modifier
+                            .weight(1f)
+                            .padding(end = 12.dp)
+                    ) {
                         Text(
                             text = "TRIP PLANNER",
-                            color = LimeAccent.copy(alpha = 0.8f),
+                            color = LimeAccent,
                             fontSize = 11.sp,
                             fontWeight = FontWeight.Bold,
-                            letterSpacing = 2.sp
+                            letterSpacing = 1.8.sp
                         )
-                        Spacer(modifier = Modifier.height(4.dp))
+                        Spacer(modifier = Modifier.height(6.dp))
                         Text(
                             text = tripName,
                             color = Color.White,
-                            fontSize = 26.sp,
-                            fontWeight = FontWeight.SemiBold,
-                            lineHeight = 32.sp
+                            fontSize = 23.sp,
+                            fontWeight = FontWeight.Bold,
+                            lineHeight = 29.sp,
+                            maxLines = 2,
+                            overflow = TextOverflow.Ellipsis
                         )
                         Spacer(modifier = Modifier.height(4.dp))
                         Text(
-                            text = "Osaka & Kyoto Circuit",
-                            color = Color.White.copy(alpha = 0.6f),
-                            fontSize = 13.sp
+                            text = circuitSubtitle,
+                            color = Color.White.copy(alpha = 0.72f),
+                            fontSize = 13.sp,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis
                         )
                     }
 
-                    // Days Left Badge
-                    Box(
-                        modifier = Modifier
-                            .clip(CircleShape)
-                            .background(LimeAccent)
-                            .padding(horizontal = 12.dp, vertical = 6.dp)
+                    // Days Left Badge - Apple Pill Style (guaranteed single line)
+                    Surface(
+                        shape = RoundedCornerShape(20.dp),
+                        color = LimeAccent,
+                        shadowElevation = 0.dp
                     ) {
                         Text(
                             text = "$daysLeft DAYS LEFT",
                             color = ForestGreenDark,
                             fontSize = 11.sp,
-                            fontWeight = FontWeight.Black
+                            fontWeight = FontWeight.Black,
+                            letterSpacing = 0.6.sp,
+                            maxLines = 1,
+                            softWrap = false,
+                            modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp)
                         )
                     }
                 }
 
-                Spacer(modifier = Modifier.height(32.dp))
+                Spacer(modifier = Modifier.height(28.dp))
 
-                // Bottom Content
+                // Readiness Stats & Spark Action
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween,
@@ -131,72 +154,73 @@ fun TripPlannerWidget(
                         Text(
                             text = "$percentReady%",
                             color = Color.White,
-                            fontSize = 42.sp,
-                            fontWeight = FontWeight.Light,
-                            lineHeight = 42.sp
+                            fontSize = 38.sp,
+                            fontWeight = FontWeight.Bold,
+                            lineHeight = 38.sp
                         )
+                        Spacer(modifier = Modifier.height(2.dp))
                         Text(
                             text = "TRIP READINESS",
-                            color = Color.White.copy(alpha = 0.6f),
-                            fontSize = 12.sp,
-                            fontWeight = FontWeight.Medium,
-                            letterSpacing = 0.5.sp
+                            color = Color.White.copy(alpha = 0.65f),
+                            fontSize = 11.sp,
+                            fontWeight = FontWeight.SemiBold,
+                            letterSpacing = 1.sp
                         )
                     }
 
-                    // Auto Awesome Icon Box
+                    // Auto Awesome Spark Button (Apple Glassmorphism)
                     Box(
                         modifier = Modifier
-                            .size(56.dp)
+                            .size(50.dp)
                             .clip(CircleShape)
-                            .background(Color.White.copy(alpha = 0.1f))
-                            .border(1.dp, Color.White.copy(alpha = 0.2f), CircleShape),
+                            .background(Color.White.copy(alpha = 0.12f))
+                            .border(1.dp, Color.White.copy(alpha = 0.22f), CircleShape),
                         contentAlignment = Alignment.Center
                     ) {
                         Icon(
                             imageVector = Icons.Default.AutoAwesome,
-                            contentDescription = null,
+                            contentDescription = "Trip Readiness Action",
                             tint = LimeAccent,
-                            modifier = Modifier.size(30.dp)
+                            modifier = Modifier.size(26.dp)
                         )
                     }
                 }
 
-                Spacer(modifier = Modifier.height(12.dp))
+                Spacer(modifier = Modifier.height(14.dp))
 
-                // Custom Progress Bar (matching the design)
+                // Apple Style Progress Track & Indicator
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(12.dp)
+                        .height(10.dp)
                         .clip(CircleShape)
-                        .background(Color.White.copy(alpha = 0.1f))
-                        .border(1.dp, Color.White.copy(alpha = 0.05f), CircleShape)
+                        .background(Color.White.copy(alpha = 0.14f))
                 ) {
                     Box(
                         modifier = Modifier
                             .fillMaxWidth(percentReady / 100f)
-                            .height(12.dp)
+                            .height(10.dp)
+                            .clip(CircleShape)
                             .background(LimeAccent)
-                            // Ideally, this would have a custom glow shadow, but sticking to standard compose here
                     )
                 }
 
-                Spacer(modifier = Modifier.height(12.dp))
+                Spacer(modifier = Modifier.height(14.dp))
 
-                // Info Text
+                // Pending Tasks Status Row
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Icon(
                         imageVector = Icons.Default.Info,
                         contentDescription = null,
-                        tint = Color.White.copy(alpha = 0.5f),
-                        modifier = Modifier.size(14.dp)
+                        tint = Color.White.copy(alpha = 0.6f),
+                        modifier = Modifier.size(15.dp)
                     )
-                    Spacer(modifier = Modifier.width(4.dp))
+                    Spacer(modifier = Modifier.width(6.dp))
                     Text(
-                        text = "2 tasks pending: Seat selection & Visa",
-                        color = Color.White.copy(alpha = 0.5f),
-                        fontSize = 11.sp
+                        text = pendingTasksText,
+                        color = Color.White.copy(alpha = 0.7f),
+                        fontSize = 12.sp,
+                        fontWeight = FontWeight.Normal
                     )
                 }
             }
