@@ -43,6 +43,8 @@ fun ProfileScreen(
         }
     }
 
+    var showAboutDialog by remember { mutableStateOf(false) }
+
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
@@ -193,7 +195,9 @@ fun ProfileScreen(
         item {
             SectionHeader("ABOUT")
             SettingsGroup {
-                SettingsRow(Icons.Default.Info, Color(0xFF8E8E93), "About JharVista") {}
+                SettingsRow(Icons.Default.Info, Color(0xFF8E8E93), "About JharVista") {
+                    showAboutDialog = true
+                }
                 Divider(modifier = Modifier.padding(start = 56.dp), color = Color(0xFFE5E5EA), thickness = 0.5.dp)
                 SettingsRow(Icons.Default.PrivacyTip, Color(0xFF8E8E93), "Privacy Policy") {}
                 Divider(modifier = Modifier.padding(start = 56.dp), color = Color(0xFFE5E5EA), thickness = 0.5.dp)
@@ -203,6 +207,8 @@ fun ProfileScreen(
             }
 
             Spacer(modifier = Modifier.height(16.dp))
+
+            // Project Team & Credits Card
             Card(
                 shape = RoundedCornerShape(16.dp),
                 colors = CardDefaults.cardColors(containerColor = Color.White),
@@ -212,36 +218,116 @@ fun ProfileScreen(
                     .fillMaxWidth()
                     .padding(horizontal = 20.dp)
             ) {
-                Row(
-                    modifier = Modifier.padding(16.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    androidx.compose.foundation.Image(
-                        painter = androidx.compose.ui.res.painterResource(id = com.example.R.drawable.brand_logo),
-                        contentDescription = "JharVista Brand Logo",
-                        modifier = Modifier
-                            .size(52.dp)
-                            .clip(RoundedCornerShape(12.dp))
-                    )
-                    Spacer(modifier = Modifier.width(16.dp))
-                    Column {
+                Column(modifier = Modifier.padding(18.dp)) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
                         Text(
                             text = "JharVista",
                             fontWeight = FontWeight.Bold,
-                            fontSize = 16.sp,
+                            fontSize = 20.sp,
                             color = Color(0xFF0B3D2E)
                         )
-                        Text(
-                            text = "Official Tourism Companion • Govt. of Jharkhand",
-                            fontSize = 12.sp,
-                            color = Color(0xFF8E8E93)
-                        )
-                        Text(
-                            text = "Regenerative Tourism Edition v2.4",
-                            fontSize = 11.sp,
-                            color = Color(0xFF34C759),
-                            fontWeight = FontWeight.Medium
-                        )
+                        Box(
+                            modifier = Modifier
+                                .clip(RoundedCornerShape(6.dp))
+                                .background(Color(0xFFE8F5E9))
+                                .padding(horizontal = 8.dp, vertical = 3.dp)
+                        ) {
+                            Text(
+                                text = "v1.1",
+                                fontSize = 11.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = Color(0xFF2E7D32)
+                            )
+                        }
+                    }
+                    Text(
+                        text = "Official Tourism Companion • Govt. of Jharkhand",
+                        fontSize = 12.sp,
+                        color = Color(0xFF8E8E93),
+                        modifier = Modifier.padding(top = 2.dp, bottom = 14.dp)
+                    )
+
+                    HorizontalDivider(color = Color(0xFFF2F2F7), thickness = 1.dp)
+                    Spacer(modifier = Modifier.height(12.dp))
+
+                    // Author: Yash Kumar Binha (OTT)
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Box(
+                            modifier = Modifier
+                                .size(40.dp)
+                                .clip(CircleShape)
+                                .background(Color(0xFFE8F5E9)),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text("YB", fontWeight = FontWeight.Bold, fontSize = 14.sp, color = Color(0xFF1E392A))
+                        }
+                        Spacer(modifier = Modifier.width(12.dp))
+                        Column(modifier = Modifier.weight(1f)) {
+                            Text(
+                                text = "Author & Concept",
+                                fontSize = 11.sp,
+                                color = Color(0xFF8E8E93),
+                                fontWeight = FontWeight.Medium
+                            )
+                            Text(
+                                text = "Yash Kumar Binha (OTT)",
+                                fontSize = 14.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = Color(0xFF1C1C1E)
+                            )
+                            Text(
+                                text = "yashbinha@gmail.com",
+                                fontSize = 12.sp,
+                                color = Color(0xFF007AFF)
+                            )
+                        }
+                    }
+
+                    Spacer(modifier = Modifier.height(12.dp))
+                    HorizontalDivider(color = Color(0xFFF2F2F7), thickness = 1.dp)
+                    Spacer(modifier = Modifier.height(12.dp))
+
+                    // Lead Developer: Mohit Raj
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Box(
+                            modifier = Modifier
+                                .size(40.dp)
+                                .clip(CircleShape)
+                                .background(Color(0xFFE3F2FD)),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text("MR", fontWeight = FontWeight.Bold, fontSize = 14.sp, color = Color(0xFF1565C0))
+                        }
+                        Spacer(modifier = Modifier.width(12.dp))
+                        Column(modifier = Modifier.weight(1f)) {
+                            Text(
+                                text = "Lead Developer",
+                                fontSize = 11.sp,
+                                color = Color(0xFF8E8E93),
+                                fontWeight = FontWeight.Medium
+                            )
+                            Text(
+                                text = "Mohit Raj",
+                                fontSize = 14.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = Color(0xFF1C1C1E)
+                            )
+                            Text(
+                                text = "mohitraj8503@gmail.com",
+                                fontSize = 12.sp,
+                                color = Color(0xFF007AFF)
+                            )
+                        }
                     }
                 }
             }
@@ -268,6 +354,75 @@ fun ProfileScreen(
             }
             Spacer(modifier = Modifier.height(48.dp))
         }
+    }
+
+    if (showAboutDialog) {
+        AlertDialog(
+            onDismissRequest = { showAboutDialog = false },
+            title = {
+                Text(
+                    text = "About JharVista",
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 20.sp,
+                    color = Color(0xFF0B3D2E)
+                )
+            },
+            text = {
+                Column {
+                    Text(
+                        text = "JharVista is the official AI-powered travel companion for the State of Jharkhand, promoting sustainable discovery, EV mobility, and tribal cultural preservation.",
+                        fontSize = 14.sp,
+                        color = Color(0xFF3C3C43),
+                        lineHeight = 20.sp
+                    )
+                    Spacer(modifier = Modifier.height(16.dp))
+                    HorizontalDivider(color = Color(0xFFE5E5EA), thickness = 0.5.dp)
+                    Spacer(modifier = Modifier.height(12.dp))
+                    Text(
+                        text = "Author & Concept:",
+                        fontSize = 11.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color(0xFF8E8E93)
+                    )
+                    Text(
+                        text = "Yash Kumar Binha (OTT)",
+                        fontSize = 15.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color(0xFF1C1C1E)
+                    )
+                    Text(
+                        text = "yashbinha@gmail.com",
+                        fontSize = 13.sp,
+                        color = Color(0xFF007AFF)
+                    )
+                    Spacer(modifier = Modifier.height(12.dp))
+                    Text(
+                        text = "Lead Developer:",
+                        fontSize = 11.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color(0xFF8E8E93)
+                    )
+                    Text(
+                        text = "Mohit Raj",
+                        fontSize = 15.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color(0xFF1C1C1E)
+                    )
+                    Text(
+                        text = "mohitraj8503@gmail.com",
+                        fontSize = 13.sp,
+                        color = Color(0xFF007AFF)
+                    )
+                }
+            },
+            confirmButton = {
+                TextButton(onClick = { showAboutDialog = false }) {
+                    Text("Done", fontWeight = FontWeight.Bold, color = Color(0xFF007AFF))
+                }
+            },
+            containerColor = Color.White,
+            shape = RoundedCornerShape(20.dp)
+        )
     }
 }
 

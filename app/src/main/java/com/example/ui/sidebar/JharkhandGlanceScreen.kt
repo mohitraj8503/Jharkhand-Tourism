@@ -232,6 +232,50 @@ fun JharkhandGlanceScreen() {
             }
         }
 
+        Spacer(modifier = Modifier.height(20.dp))
+
+        // App & Project Credits
+        Text(
+            text = "App & Project Credits",
+            fontSize = 20.sp,
+            fontWeight = FontWeight.Bold,
+            color = TextPrimary,
+            modifier = Modifier.padding(horizontal = 16.dp)
+        )
+        Spacer(modifier = Modifier.height(12.dp))
+
+        Card(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp),
+            colors = CardDefaults.cardColors(containerColor = Color.White),
+            border = androidx.compose.foundation.BorderStroke(0.5.dp, Color(0xFFE5E5EA)),
+            shape = RoundedCornerShape(16.dp)
+        ) {
+            Column(modifier = Modifier.padding(16.dp)) {
+                Text(
+                    text = "JharVista Tourism Companion",
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 15.sp,
+                    color = ForestGreen
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(
+                    text = "Author & Concept: Yash Kumar Binha (OTT) • yashbinha@gmail.com",
+                    fontSize = 13.sp,
+                    color = TextPrimary,
+                    fontWeight = FontWeight.Medium
+                )
+                Spacer(modifier = Modifier.height(6.dp))
+                Text(
+                    text = "Lead Developer: Mohit Raj • mohitraj8503@gmail.com",
+                    fontSize = 13.sp,
+                    color = TextPrimary,
+                    fontWeight = FontWeight.Medium
+                )
+            }
+        }
+
         Spacer(modifier = Modifier.height(32.dp))
     }
 }

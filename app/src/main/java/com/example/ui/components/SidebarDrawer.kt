@@ -139,36 +139,7 @@ fun SidebarDrawer(
             }
 
             Spacer(modifier = Modifier.weight(1f))
-            
-            // Tourism accreditation footer
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 20.dp, vertical = 16.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                androidx.compose.foundation.Image(
-                    painter = androidx.compose.ui.res.painterResource(id = com.example.R.drawable.brand_logo),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .size(28.dp)
-                        .clip(androidx.compose.foundation.shape.RoundedCornerShape(6.dp))
-                )
-                Spacer(modifier = Modifier.width(10.dp))
-                Column {
-                    Text(
-                        text = "Govt. of Jharkhand",
-                        fontSize = 11.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = Color.White.copy(alpha = 0.9f)
-                    )
-                    Text(
-                        text = "Department of Tourism",
-                        fontSize = 10.sp,
-                        color = Color.White.copy(alpha = 0.5f)
-                    )
-                }
-            }
+            Spacer(modifier = Modifier.height(24.dp))
         }
     }
 }

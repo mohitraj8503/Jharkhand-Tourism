@@ -64,9 +64,10 @@ fun AudioGuideScreen() {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(42.dp)
+                        .height(44.dp)
                         .background(Color(0xFFE5E5EA), RoundedCornerShape(22.dp))
-                        .padding(3.dp)
+                        .padding(3.dp),
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
                     listOf("English", "हिंदी", "संथाली").forEach { lang ->
                         val isSel = selectedLanguage == lang
@@ -79,14 +80,18 @@ fun AudioGuideScreen() {
                                 .clickable(
                                     indication = null,
                                     interactionSource = remember { androidx.compose.foundation.interaction.MutableInteractionSource() }
-                                ) { selectedLanguage = lang },
+                                ) { selectedLanguage = lang }
+                                .padding(horizontal = 6.dp),
                             contentAlignment = Alignment.Center
                         ) {
                             Text(
-                                lang,
+                                text = lang,
                                 color = if (isSel) ForestGreen else TextSecondary,
                                 fontSize = 14.sp,
-                                fontWeight = if (isSel) FontWeight.Bold else FontWeight.Medium
+                                fontWeight = if (isSel) FontWeight.Bold else FontWeight.Medium,
+                                maxLines = 1,
+                                softWrap = false,
+                                overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis
                             )
                         }
                     }

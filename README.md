@@ -182,6 +182,15 @@ The project features automated unit, domain logic, and screenshot tests:
 
 ---
 
+## 👥 Project Team & Credits
+
+| Role | Name | Email |
+|---|---|---|
+| **Author & Concept** | **Yash Kumar Binha (OTT)** | [`yashbinha@gmail.com`](mailto:yashbinha@gmail.com) |
+| **Lead Developer** | **Mohit Raj** | [`mohitraj8503@gmail.com`](mailto:mohitraj8503@gmail.com) |
+
+---
+
 ## 🤝 Acknowledgements
 
 - **Department of Tourism, Govt. of Jharkhand** for inspiration, cultural heritage, and geographical data.

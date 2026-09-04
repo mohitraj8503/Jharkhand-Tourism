@@ -55,7 +55,7 @@ fun TruTopBar(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        // Menu Button & Official Brand Logo
+        // Menu Button & Text Logo
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.clickable { onMenuClick() }
@@ -67,12 +67,13 @@ fun TruTopBar(
                     tint = TextPrimary
                 )
             }
-            androidx.compose.foundation.Image(
-                painter = androidx.compose.ui.res.painterResource(id = com.example.R.drawable.brand_logo),
-                contentDescription = "JharVista Brand Logo",
-                modifier = Modifier
-                    .size(34.dp)
-                    .clip(androidx.compose.foundation.shape.RoundedCornerShape(8.dp))
+            Spacer(modifier = Modifier.width(2.dp))
+            Text(
+                text = "JharVista",
+                color = ForestGreen,
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Bold,
+                letterSpacing = (-0.5).sp
             )
         }
 
