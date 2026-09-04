@@ -59,7 +59,7 @@ fun LoginScreen(
 
         // Logo text
         Text("JharVista", fontSize = 28.sp, fontWeight = FontWeight.Bold, color = Color(0xFF0B3D2E))
-        Text("Tourism in Jharkhand", fontSize = 14.sp, color = Color(0xFF6B7280))
+        Text("Discover the soul of Jharkhand", fontSize = 14.sp, color = Color(0xFF6B7280))
 
         Spacer(modifier = Modifier.height(32.dp))
 
