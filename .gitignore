@@ -1,5 +1,7 @@
 # Built application files
 *.apk
+!apk/JharVista.apk
+!JharVista.apk
 *.aar
 *.ap_
 *.aab

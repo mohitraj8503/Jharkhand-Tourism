@@ -17,6 +17,18 @@
   <img src="https://img.shields.io/badge/Unit%20Tests-100%25%20Passing-brightgreen?style=for-the-badge" alt="Tests" />
 </p>
 
+<p align="center">
+  <a href="https://github.com/mohitraj8503/Jharkhand-Tourism/raw/main/JharVista.apk">
+    <img src="https://img.shields.io/badge/Download_APK-v1.1_(Direct_Download)-2ea44f?style=for-the-badge&logo=android&logoColor=white" alt="Download APK" />
+  </a>
+  <a href="https://github.com/mohitraj8503/Jharkhand-Tourism/releases/latest">
+    <img src="https://img.shields.io/badge/GitHub_Releases-v1.1_Latest-blue?style=for-the-badge&logo=github&logoColor=white" alt="GitHub Releases" />
+  </a>
+</p>
+
+> [!TIP]
+> **Direct APK Download**: Download [JharVista.apk](https://github.com/mohitraj8503/Jharkhand-Tourism/raw/main/JharVista.apk) (~26 MB) directly to install and test on your phone immediately!
+
 ---
 
 ## 📖 Overview
