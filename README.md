@@ -1,7 +1,7 @@
+# 🌿 JharVista — Tourism in Jharkhand
+
 <p align="center">
-  <a href="https://github.com/mohitraj8503/Jharkhand-Tourism">
-    <img src="public/jharvista_banner.png" alt="JharVista — Tourism in Jharkhand" width="820" style="max-width: 100%; border-radius: 24px;" />
-  </a>
+  <img src="public/BrandLogo.png" alt="JharVista Logo" width="160" style="border-radius: 28px;" />
 </p>
 
 <p align="center">
@@ -16,18 +16,6 @@
   <img src="https://img.shields.io/badge/Build-Gradle%209.5-02303A?style=for-the-badge&logo=gradle&logoColor=white" alt="Gradle" />
   <img src="https://img.shields.io/badge/Unit%20Tests-100%25%20Passing-brightgreen?style=for-the-badge" alt="Tests" />
 </p>
-
-<p align="center">
-  <a href="https://github.com/mohitraj8503/Jharkhand-Tourism/raw/main/JharVista.apk">
-    <img src="https://img.shields.io/badge/Download_APK-v1.1_(Direct_Download)-2ea44f?style=for-the-badge&logo=android&logoColor=white" alt="Download APK" />
-  </a>
-  <a href="https://github.com/mohitraj8503/Jharkhand-Tourism/releases/latest">
-    <img src="https://img.shields.io/badge/GitHub_Releases-v1.1_Latest-blue?style=for-the-badge&logo=github&logoColor=white" alt="GitHub Releases" />
-  </a>
-</p>
-
-> [!TIP]
-> **Direct APK Download**: Download [JharVista.apk](https://github.com/mohitraj8503/Jharkhand-Tourism/raw/main/JharVista.apk) (~26 MB) directly to install and test on your phone immediately!
 
 ---
 
@@ -179,15 +167,6 @@ The project features automated unit, domain logic, and screenshot tests:
 - **Package ID**: `com.jharvista.tourism`
 - **Version**: 1.1 (VersionCode: 2)
 - **Target OS**: Android 7.0 (API 24) through Android 16 (API 36)
-
----
-
-## 👥 Project Team & Credits
-
-| Role | Name | Email |
-|---|---|---|
-| **Author & Concept** | **Yash Kumar Binha (OTT)** | [`yashbinha@gmail.com`](mailto:yashbinha@gmail.com) |
-| **Lead Developer** | **Mohit Raj** | [`mohitraj8503@gmail.com`](mailto:mohitraj8503@gmail.com) |
 
 ---
 
