@@ -1,7 +1,9 @@
-# 🌿 JharVista — Tourism in Jharkhand
-
 <p align="center">
-  <img src="public/BrandLogo.png" alt="JharVista Logo" width="160" style="border-radius: 28px;" />
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="public/jharvista_header_dark.png">
+    <source media="(prefers-color-scheme: light)" srcset="public/jharvista_header_light.png">
+    <img src="public/jharvista_header_dark.png" alt="JharVista" width="380" />
+  </picture>
 </p>
 
 <p align="center">
