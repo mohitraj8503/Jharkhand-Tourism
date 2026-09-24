@@ -182,3 +182,7 @@ The project features automated unit, domain logic, and screenshot tests:
 <p align="center">
   Crafted with ❤️ for <b>Jharkhand — The Land of Forests and Waterfalls</b>
 </p>
+
+---
+
+Built by [Mohit Raj](https://github.com/mohitraj8503) — Technical Team Lead @ [Tech Tomorrow](https://techtomorrow.in)
